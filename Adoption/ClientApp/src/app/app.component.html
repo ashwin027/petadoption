@@ -48,9 +48,9 @@
             </a>
           </li>
           <li>
-            <a>
-              <mat-icon class="icon">dashboard</mat-icon>
-              <span class="label label-spacing">Dashboard</span>
+            <a routerLink="profile" *ngIf="auth.loggedIn">
+              <mat-icon class="icon">account_box</mat-icon>
+              <span class="label label-spacing">Profile</span>
             </a>
           </li>
           <li>
@@ -63,6 +63,7 @@
       </div>
     </mat-toolbar>
     <main>
+      <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

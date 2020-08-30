@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using PetInfo.Models.Entities;
 
 namespace PetInfo.Repository
 {
@@ -23,16 +24,16 @@ namespace PetInfo.Repository
             _client = client;
             _logger = logger;
         }
-        public async Task<List<DogBreedInfo>> GetAllBreeds(CancellationToken cancellationToken)
+        public async Task<List<DogBreedInfoEntity>> GetAllBreeds(CancellationToken cancellationToken)
         {
-            var lstDogBreedInfo = new List<DogBreedInfo>();
+            var lstDogBreedInfo = new List<DogBreedInfoEntity>();
             try
             {
                 var response = await _client.GetAsync($"/{ApiVersion}/{BreedEndpointSuffix}", cancellationToken);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    lstDogBreedInfo = JsonConvert.DeserializeObject<List<DogBreedInfo>>(responseContent);
+                    lstDogBreedInfo = JsonConvert.DeserializeObject<List<DogBreedInfoEntity>>(responseContent);
                 }
 
                 return lstDogBreedInfo;
@@ -44,16 +45,16 @@ namespace PetInfo.Repository
             }
         }
         
-        public async Task<List<DogBreedInfo>> SearchBreeds(string searchString, CancellationToken cancellationToken)
+        public async Task<List<DogBreedInfoEntity>> SearchBreeds(string searchString, CancellationToken cancellationToken)
         {
-            var lstDogBreedInfo = new List<DogBreedInfo>();
+            var lstDogBreedInfo = new List<DogBreedInfoEntity>();
             try
             {
                 var response = await _client.GetAsync($"/{ApiVersion}/{BreedEndpointSuffix}/search?q={searchString}", cancellationToken);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    lstDogBreedInfo = JsonConvert.DeserializeObject<List<DogBreedInfo>>(responseContent);
+                    lstDogBreedInfo = JsonConvert.DeserializeObject<List<DogBreedInfoEntity>>(responseContent);
                 }
 
                 return lstDogBreedInfo;

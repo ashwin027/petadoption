@@ -11,7 +11,7 @@
   "profiles": {
     "PetInfo.Api": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "api/DogInfo/GetBreeds",
       "applicationUrl": "http://localhost:5002",
       "environmentVariables": {
@@ -20,7 +20,7 @@
     },
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "api/DogInfo/GetBreeds",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

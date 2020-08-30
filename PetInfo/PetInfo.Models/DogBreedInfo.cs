@@ -7,10 +7,10 @@ namespace PetInfo.Models
 {
     public class DogBreedInfo
     {
-        [JsonProperty("bred_for")]
+        [JsonProperty("bredFor")]
         public string BredFor { get; set; }
 
-        [JsonProperty("breed_group")]
+        [JsonProperty("breedGroup")]
         public string BreedGroup { get; set; }
 
         [JsonProperty("height")]
@@ -19,7 +19,7 @@ namespace PetInfo.Models
         [JsonProperty("id")]
         public int Id { get; set;}
 
-        [JsonProperty("life_span")]
+        [JsonProperty("lifeSpan")]
         public string LifeSpan { get; set; }
 
         [JsonProperty("name")] 

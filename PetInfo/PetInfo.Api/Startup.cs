@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetInfo.Models;
+using PetInfo.Models.Config;
 using PetInfo.Repository;
 
 namespace PetInfo.Api
@@ -41,6 +44,18 @@ namespace PetInfo.Api
                     client.DefaultRequestHeaders.Add(Constants.ApiKey, dogEndpointInfo?.ApiKey);
                 });
 
+            services.AddAutoMapper(c => c.AddProfile<Mappings>(),typeof(Startup));
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = $"https://{apiSettings?.AuthZeroSettings?.Domain}/";
+                options.Audience = apiSettings?.AuthZeroSettings?.Audience;
+            });
+
             services.AddControllers();
         }
 
@@ -53,7 +68,7 @@ namespace PetInfo.Api
             }
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PetInfo.Models
+namespace PetInfo.Models.Config
 {
     public class EndpointInfo
     {

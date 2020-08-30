@@ -9,12 +9,16 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+  domain = 'dev-um1jxj5g.us.auth0.com';
+  clientId = 'fjAsN6yGCCI0UsPkjQiYB74ly70GrwVF';
   // Create an observable of Auth0 instance of client
   auth0Client$ = (from(
     createAuth0Client({
-      domain: "dev-um1jxj5g.us.auth0.com",
-      client_id: "fjAsN6yGCCI0UsPkjQiYB74ly70GrwVF",
-      redirect_uri: `${window.location.origin}`
+      domain: this.domain,
+      client_id: this.clientId,
+      redirect_uri: `${window.location.origin}`,
+      audience: 'https://floofs.ca/petadoptionuniversal',
+      scope: 'read:petinfo read:adoptions'
     })
   ) as Observable<Auth0Client>).pipe(
     shareReplay(1), // Every subscription receives the same shared value
@@ -112,12 +116,18 @@ export class AuthService {
     }
   }
 
+  getTokenSilently$(options?): Observable<string> {
+    return this.auth0Client$.pipe(
+      concatMap((client: Auth0Client) => from(client.getTokenSilently(options)))
+    );
+  }
+
   logout() {
     // Ensure Auth0 client instance exists
     this.auth0Client$.subscribe((client: Auth0Client) => {
       // Call method to log out
       client.logout({
-        client_id: "fjAsN6yGCCI0UsPkjQiYB74ly70GrwVF",
+        client_id: this.clientId,
         returnTo: `${window.location.origin}`
       });
     });
