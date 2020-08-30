@@ -1,10 +1,10 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav role="navigation">
     <mat-nav-list>
-      <a mat-list-item>
+      <button mat-list-item (click)="auth.login()" *ngIf="!auth.loggedIn">
         <mat-icon class="icon">input</mat-icon>
         <span class="label">Login</span>
-      </a>
+      </button>
       <a mat-list-item>
         <mat-icon class="icon">home</mat-icon>
         <span class="label">Home</span>
@@ -13,7 +13,7 @@
         <mat-icon class="icon">dashboard</mat-icon>
         <span class="label">Dashboard</span>
       </a>
-      <a mat-list-item type="button">
+      <a mat-list-item type="button" (click)="auth.logout()" *ngIf="auth.loggedIn">
         <mat-icon class="icon">input</mat-icon>
         <span class="label">LogOut</span>
       </a>
@@ -36,7 +36,7 @@
       <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li>
-            <a>
+            <a (click)="auth.login()" *ngIf="!auth.loggedIn">
               <mat-icon class="icon">input</mat-icon>
               <span class="label label-spacing">Login</span>
             </a>
@@ -54,7 +54,7 @@
             </a>
           </li>
           <li>
-            <a>
+            <a (click)="auth.logout()" *ngIf="auth.loggedIn">
               <mat-icon class="icon">input</mat-icon>
               <span class="label label-spacing">LogOut</span>
             </a>
