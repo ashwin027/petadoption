@@ -68,6 +68,7 @@ namespace PetInfo.Api
             }
 
             app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
