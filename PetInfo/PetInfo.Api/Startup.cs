@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PetInfo.Models;
+using PetInfo.Repository;
 
 namespace PetInfo.Api
 {
@@ -24,6 +26,21 @@ namespace PetInfo.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ApiSettingsOptions>(Configuration.GetSection(ApiSettingsOptions.ApiSettings));
+
+            var apiSettings = Configuration.GetSection(ApiSettingsOptions.ApiSettings).Get<ApiSettingsOptions>();
+            var dogEndpointInfo = apiSettings?.Endpoints?.FirstOrDefault(x => x.Type.Equals(AnimalType.Dogs));
+
+            services.AddHttpClient<IDogBreedInfoRepository, DogBreedInfoRepository>(nameof(DogBreedInfoRepository),
+                client =>
+                {
+                    if (!string.IsNullOrWhiteSpace(dogEndpointInfo?.BaseUrl))
+                    {
+                        client.BaseAddress = new Uri(dogEndpointInfo.BaseUrl);
+                    }
+                    client.DefaultRequestHeaders.Add(Constants.ApiKey, dogEndpointInfo?.ApiKey);
+                });
+
             services.AddControllers();
         }
 
