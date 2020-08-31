@@ -10,7 +10,9 @@ namespace PetAdoption.Models.Entities
         public string AdopteeId { get; set; }
         public string AdopterId { get; set; }
         public int PetId { get; set; }
+        public string PetName { get; set; }
         public string Status { get; set; }
         public double Fees { get; set; }
+        public string BreedName { get; set; }
     }
 }

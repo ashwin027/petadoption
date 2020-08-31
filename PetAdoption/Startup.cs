@@ -53,7 +53,7 @@ namespace PetAdoption
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AdoptionContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -95,6 +95,9 @@ namespace PetAdoption
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
+
+            // Migrate the DB
+            dbContext.Database.Migrate();
         }
     }
 }

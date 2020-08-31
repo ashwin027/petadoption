@@ -212,7 +212,7 @@ namespace UserPetInfo.Api.Controllers
                 var currentLoggedInUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (!currentLoggedInUser.Equals(userId, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    _logger.LogError($"UserPetController, method: UpdateUserPet(). User with id: {currentLoggedInUser} attempting to update a pet with a different user ID.");
+                    _logger.LogError($"UserPetController, method: UpdateUserPet(). User with id: {currentLoggedInUser} attempting to delete a pet with a different user ID.");
                     return Unauthorized();
                 }
 
