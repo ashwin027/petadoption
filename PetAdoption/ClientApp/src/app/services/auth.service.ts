@@ -43,6 +43,10 @@ export class AuthService {
   loggedIn: boolean = null;
 
   constructor(private router: Router) {
+    this.setUpAuthWrapper();
+  }
+
+  setUpAuthWrapper(){
     // On initial load, check authentication state with authorization server
     // Set up local auth streams if user is already authenticated
     this.localAuthSetup();
@@ -89,7 +93,7 @@ export class AuthService {
     });
   }
 
-  private handleAuthCallback() {
+  handleAuthCallback() {
     // Call when app reloads after user logs in with Auth0
     const params = window.location.search;
     if (params.includes('code=') && params.includes('state=')) {
