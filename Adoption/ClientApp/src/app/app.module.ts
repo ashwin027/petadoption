@@ -9,12 +9,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProfileComponent } from './profile/profile.component';
 import { PetProfileComponent } from './pet-profile/pet-profile.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AddPetProfileDialogComponent } from './add-pet-profile-dialog/add-pet-profile-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProfileComponent,
-    PetProfileComponent
+    PetProfileComponent,
+    AddPetProfileDialogComponent
   ],
   imports: [
     BrowserModule,

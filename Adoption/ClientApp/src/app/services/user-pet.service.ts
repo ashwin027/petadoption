@@ -7,10 +7,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserPetService {
-  baseUrl = 'http://localhost:5001/api/userpet';
+  baseUrl = 'http://localhost:5001/api';
+
   constructor(private http: HttpClient) { }
 
   createUserPet(userPet: UserPet): Observable<UserPet> {
-    return this.http.post<UserPet>(this.baseUrl, userPet);
+    return this.http.post<UserPet>(`${this.baseUrl}/userpet`, userPet);
+  }
+
+  getUserPets(userId: string): Observable<Array<UserPet>>{
+    return this.http.get<Array<UserPet>>(`${this.baseUrl}/user/${userId}/userPets`,)
   }
 }

@@ -11,6 +11,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import {MatInputModule} from '@angular/material/input';
     MatSelectModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatDialogModule,
     FlexLayoutModule 
   ],
   exports: [
@@ -39,6 +41,7 @@ import {MatInputModule} from '@angular/material/input';
     MatSelectModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatDialogModule,
     FlexLayoutModule
   ]
 })

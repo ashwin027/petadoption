@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { Gender } from '../models/gender';
 import { DogBreedInfo } from '../models/dogBreedInfo';
 import { PetInfoService } from '../services/pet-info.service';
@@ -9,6 +9,8 @@ import {UserPet} from '../models/userPet';
 import { AuthService } from '../services/auth.service';
 import { UserProfile } from '../models/userProfile';
 import {UserPetService} from '../services/user-pet.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddPetProfileDialogComponent } from '../add-pet-profile-dialog/add-pet-profile-dialog.component';
 
 @Component({
   selector: 'app-pet-profile',
@@ -16,71 +18,40 @@ import {UserPetService} from '../services/user-pet.service';
   styleUrls: ['./pet-profile.component.scss']
 })
 export class PetProfileComponent implements OnInit {
-  breedControl = new FormControl();
-  genders = new Array<Gender>();
-  breeds = new Array<DogBreedInfo>();
-  filteredOptions: Observable<DogBreedInfo[]>;
-  petProfileForm = this.fb.group({
-    name: ['', Validators.required],
-    description: ['', Validators.required],
-    gender: ['', Validators.required],
-    breed: ['', Validators.required]
-  });
-  selectedFile: File;
+  selectForm: FormGroup;
   profile: UserProfile;
-  constructor(private fb: FormBuilder, private petInfoService: PetInfoService, private userPetService: UserPetService, private auth: AuthService) { }
+  userPets = new Array<UserPet>();
+  selectedUserPet: UserPet;
+  userPetControl = new FormControl();
+  constructor(private auth: AuthService, public dialog: MatDialog, private userPetService: UserPetService) { }
 
   ngOnInit(): void {
-    this.genders.push({ displayText: 'Male', value: 'male' });
-    this.genders.push({ displayText: 'Female', value: 'female' });
-    this.genders.push({ displayText: 'Don\'t know', value: 'dontknow' });
-
-    this.petInfoService.getAllBreeds().subscribe((breeds) => {
-      this.breeds = breeds;
-      this.filteredOptions = this.petProfileForm.get('breed').valueChanges.pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.breeds.slice())
-      );
+    this.selectForm = new FormGroup({
+      userPet: this.userPetControl
     });
-
     this.auth.userProfile$.subscribe((prfl) =>{
       this.profile = prfl;
      });
+     this.getUserPets();
   }
 
-  displayFn(breedId: Number): string {
-    if (this.breeds.length>0){
-      let breed = this.breeds.filter(b => b.id===breedId)[0];
-      if (breed){
-        return breed?.name;
-      }
-      return '';
-    }
-    else{
-      return '';
-    }
-  }
+  OpenAddPetDialog(): void {
+    const dialogRef = this.dialog.open(AddPetProfileDialogComponent, {
+      width: '500px'
+    });
 
-  private _filter(name: string): DogBreedInfo[] {
-    const filterValue = name.toLowerCase();
-
-    return this.breeds.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
-  }
-
-  onSubmit() {
-    // TODO: Use EventEmitter with form value
-    let userPet: UserPet = {
-      breedId: this.petProfileForm.value.breed,
-      description: this.petProfileForm.value.description,
-      gender: this.petProfileForm.value.gender,
-      name: this.petProfileForm.value.name,
-      userId: this.profile.sub
-    }
-
-    this.userPetService.createUserPet(userPet).subscribe((userPet) =>{
-      console.log(userPet);
+    dialogRef.afterClosed().subscribe((result:UserPet) => {
+      this.getUserPets();
     });
   }
 
+  getUserPets(){
+    this.userPetService.getUserPets(this.profile.sub).subscribe((userPets) =>{
+      this.userPets = userPets;
+      if (userPets.length>0){
+        this.selectedUserPet = userPets[0];
+        this.userPetControl = new FormControl(userPets[0]);
+      }
+    });
+  }
 }
