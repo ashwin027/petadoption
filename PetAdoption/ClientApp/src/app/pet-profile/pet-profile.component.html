@@ -52,7 +52,19 @@
                     </div>
                     <div fxLayout="row">
                         <span class="submit-button">
-                            <button type="button" mat-raised-button color="primary" (click)="PutUpForAdoption()">Put up
+                            <mat-chip-list [ngSwitch]="selectedUserPet?.adoptionStatus">
+                                <mat-chip [color]="'primary'" *ngSwitchCase="Constants.Available">
+                                    {{selectedUserPet?.adoptionStatus}}
+                                </mat-chip>
+                                <mat-chip [color]="'accent'" *ngSwitchCase="Constants.Pending">
+                                    {{selectedUserPet?.adoptionStatus}}
+                                </mat-chip>
+                                <mat-chip [color]="'warn'" *ngSwitchCase="Constants.Closed">
+                                    {{selectedUserPet?.adoptionStatus}}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button *ngIf="!selectedUserPet?.adoptionStatus" type="button" mat-raised-button
+                                color="primary" (click)="PutUpForAdoption()">Put up
                                 for adoption</button>
                         </span>
                         <span>

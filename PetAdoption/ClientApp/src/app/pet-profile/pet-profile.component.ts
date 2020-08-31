@@ -16,6 +16,10 @@ import { MatSelectChange } from '@angular/material/select';
 import { AdoptionDetailsDialogComponent } from '../adoption-details-dialog/adoption-details-dialog.component';
 import { AdoptionAdditionalDetails } from '../models/adoptionAdditionalDetails';
 import { Adoption } from '../models/adoption';
+import { UserPetExtended } from '../models/userPetExtended';
+import 'rxjs/add/observable/forkJoin'
+import { AdoptionStatus } from '../models/adoptionStatus';
+import { Constants } from '../models/Constants';
 
 @Component({
   selector: 'app-pet-profile',
@@ -24,23 +28,60 @@ import { Adoption } from '../models/adoption';
 })
 export class PetProfileComponent implements OnInit {
   profile: UserProfile;
-  userPets = new Array<UserPet>();
-  selectedUserPet: UserPet;
+  userPets = new Array<UserPetExtended>();
+  selectedUserPet: UserPetExtended;
   selectedBreed: DogBreedInfo;
   breeds = new Array<DogBreedInfo>();
+  adoptions = new Array<Adoption>();
+  Constants = Constants;
 
   constructor(private auth: AuthService, public dialog: MatDialog, private adoptionService: AdoptionService,
     private userPetService: UserPetService, private petInfoService: PetInfoService) { }
 
   ngOnInit(): void {
+
     this.auth.userProfile$.subscribe((prfl) => {
       this.profile = prfl;
+      Observable.forkJoin([
+        this.petInfoService.getAllBreeds(),
+        this.userPetService.getUserPets(this.profile.sub),
+        this.adoptionService.getAdoptionsForUser(this.profile.sub)]).subscribe(results => {
+          this.breeds = results[0];
+          this.userPets = results[1];
+          this.adoptions = results[2];
+          this.selectDefaultPetBreed();
+          this.setAdoptionStatuses();
+        });
     });
+  }
 
-    this.petInfoService.getAllBreeds().subscribe((breeds) => {
-      this.breeds = breeds;
-      this.getUserPets();
+  setAdoptionStatuses() {
+    this.adoptions.forEach(adoption => {
+      var userPet = this.userPets.find(us => us.id === adoption.petId);
+      if (userPet) {
+        userPet.adoption = adoption;
+        switch (adoption.status) {
+          case AdoptionStatus.Available:
+            userPet.adoptionStatus = Constants.Available;
+            break;
+          case AdoptionStatus.Closed:
+            userPet.adoptionStatus = Constants.Closed;
+            break;
+          case AdoptionStatus.Pending:
+            userPet.adoptionStatus = Constants.Pending;
+            break;
+          default:
+            break;
+        }
+      }
     });
+  }
+
+  selectDefaultPetBreed() {
+    if (this.userPets.length > 0) {
+      this.selectedUserPet = this.userPets[0];
+      this.selectedBreed = this.breeds.find(b => b.id === this.selectedUserPet.breedId);
+    }
   }
 
   OpenAddPetDialog(): void {
@@ -65,11 +106,12 @@ export class PetProfileComponent implements OnInit {
   getUserPets() {
     this.userPetService.getUserPets(this.profile.sub).subscribe((userPets) => {
       this.userPets = userPets;
-      if (userPets.length > 0) {
-        this.selectedUserPet = userPets[0];
-        this.selectedBreed = this.breeds.find(b => b.id === this.selectedUserPet.breedId);
-      }
+      this.selectDefaultPetBreed();
     });
+  }
+
+  getAdoptionsForUser(): Observable<Array<Adoption>> {
+    return this.adoptionService.getAdoptionsForUser(this.profile.sub);
   }
 
   PutUpForAdoption() {
@@ -86,11 +128,10 @@ export class PetProfileComponent implements OnInit {
           fees: result.fees,
           petId: this.selectedUserPet.id,
           petName: this.selectedUserPet.name,
-          status: 'Available'
+          status: AdoptionStatus.Available
         }
         this.adoptionService.createAdoption(adoption).subscribe((adoption) => {
-          // TODO: get adoptions for user again. This should disable buttons based on the status of the adoption
-          console.log(adoption);
+          this.selectedUserPet.adoption = adoption;
         });
       }
     });

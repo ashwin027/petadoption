@@ -84,6 +84,29 @@ namespace PetAdoption.Controllers
             }
         }
 
+        [HttpGet("user/{userId}")]
+        public ActionResult<PaginatedList<Adoption>> GetAdoptionsForUser(string userId)
+        {
+            try
+            {
+                var adoptionEntities = _adoptionRepository.GetAllAdoptionsForUser(userId);
+
+                if (adoptionEntities == null)
+                {
+                    _logger.LogError($"AdoptionController, method: GetAdoptionsForUser(). No adoptions found.");
+                    return NotFound();
+                }
+
+                var adoptions = _mapper.Map<List<Adoption>>(adoptionEntities);
+                return Ok(adoptions);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Server Error in AdoptionController, method: GetAdoptionsForUser().", ex);
+                return StatusCode(500);
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<Adoption>> CreateAdoption(Adoption adoption)
         {

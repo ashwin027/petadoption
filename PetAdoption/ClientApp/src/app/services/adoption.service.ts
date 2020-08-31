@@ -15,6 +15,10 @@ export class AdoptionService {
   }
 
   getAdoptions(): Observable<Array<Adoption>>{
-    return this.http.get<Array<Adoption>>(`api/adoption`)
+    return this.http.get<Array<Adoption>>(`api/adoption`);
+  }
+
+  getAdoptionsForUser(userId: string): Observable<Array<Adoption>>{
+    return this.http.get<Array<Adoption>>(`api/adoption/user/${userId}`);
   }
 }

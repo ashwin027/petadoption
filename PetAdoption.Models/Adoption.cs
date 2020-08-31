@@ -18,7 +18,7 @@ namespace PetAdoption.Models
         [JsonProperty("petName")]
         public string PetName { get; set; }
         [JsonProperty("status")]
-        public string Status { get; set; }
+        public AdoptionStatus Status { get; set; }
         [JsonProperty("fees")]
         public double Fees { get; set; }
         [JsonProperty("breedName")]

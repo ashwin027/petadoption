@@ -10,6 +10,7 @@ namespace PetAdoption.Repository
     public interface IAdoptionRepository
     {
         Task<PaginatedList<AdoptionEntity>> GetAllAdoptions(int? pageNumber, int? pageSize);
+        List<AdoptionEntity> GetAllAdoptionsForUser(string userId);
         Task<PaginatedList<AdoptionEntity>> SearchAdoptions(string searchStr, int? pageNumber, int? pageSize);
         Task<AdoptionEntity> GetAdoption(int? id);
         Task<AdoptionEntity> CreateAdoption(AdoptionEntity adoption);

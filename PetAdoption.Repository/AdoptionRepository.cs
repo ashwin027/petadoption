@@ -91,6 +91,21 @@ namespace PetAdoption.Repository
             }
         }
 
+        public List<AdoptionEntity> GetAllAdoptionsForUser(string userId)
+        {
+            try
+            {
+                var adoptions = _adoptionContext.Adoptions.Where(a => a.AdopteeId==userId);
+
+                return adoptions.ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Server Error in GetAllAdoptionsForUser().", ex);
+                throw ex;
+            }
+        }
+
         public async Task<PaginatedList<AdoptionEntity>> SearchAdoptions(string searchStr, int? pageNumber, int? pageSize)
         {
             try
