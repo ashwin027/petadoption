@@ -15,3 +15,42 @@
 .top-margin {
   margin-top: 20px;
 }
+
+.upload-box {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #d8d8d8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-upload {
+  width: 180px;
+}
+
+.file-upload-label {
+  text-align: center;
+}
+
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.label-row {
+  margin: 10px 10px;
+}
+
+.row-container {
+  margin: 10px;
+  border: 1px solid #d8d8d8;
+}
+
+.rows-wrapper {
+  height: 350px;
+}

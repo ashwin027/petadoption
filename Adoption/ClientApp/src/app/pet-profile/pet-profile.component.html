@@ -1,5 +1,4 @@
-<form [formGroup]="selectForm"></form>
-<div fxLayout="row" class="top-margin">
+<div fxLayout="row" class="top-margin" *ngIf="userPets.length==0">
     <div fxFlexOffset="10" fxFlex="70">
         <h2>Start by adding your pet.</h2>
     </div>
@@ -9,12 +8,58 @@
         <div *ngIf="userPets.length==0">No pets found.</div>
         <mat-form-field appearance="fill" *ngIf="userPets.length>0" class="full-width">
             <mat-label>Select a pet</mat-label>
-            <mat-select [formControl]="userPetControl" name="userPet">
-              <mat-option *ngFor="let userPet of userPets" [value]="userPet.id">
-                {{userPet.name}}
-              </mat-option>
+            <mat-select name="userPet" [(value)]="selectedUserPet" (selectionChange)="selectPet($event)">
+                <mat-option *ngFor="let userPet of userPets" [value]="userPet">
+                    {{userPet.name}}
+                </mat-option>
             </mat-select>
-          </mat-form-field>
+        </mat-form-field>
         <button type="button" mat-raised-button color="primary" (click)="OpenAddPetDialog()">Add a pet</button>
+    </div>
+</div>
+<div *ngIf="selectedUserPet!=null && userPets.length>0">
+    <div fxLayout="row" class="top-margin">
+        <div fxFlexOffset="10" fxFlex="70">
+            <h2>Profile</h2>
+        </div>
+    </div>
+    <div fxLayout="row">
+        <div fxFlexOffset="10" fxFlex="70">
+            <div fxLayout="row" class="rows-wrapper">
+                <div fxFlex="50" class="row-container">
+                    <div fxLayout="row" class="label-row">
+                        <div fxFlex="100">
+                            <div fxFlex="33">
+                                <label class="label">Name</label>
+                                <div>{{selectedUserPet.name}}</div>
+                            </div>
+                            <div fxFlex="33">
+                                <label class="label">Gender</label>
+                                <div>{{selectedUserPet.gender}}</div>
+                            </div>
+                            <div fxFlex="33">
+                                <label class="label">Breed</label>
+                                <div>{{selectedBreed?.name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div fxLayout="row" class="label-row">
+                        <div fxFlex="100">
+                            <label class="label">Description</label>
+                            <div>{{selectedUserPet.description}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="50" class="row-container">
+                    <div class="upload-box">
+                        <div class="file-upload-container">
+                            <label for="photos" class="file-upload-label">Add photos</label>
+                            <input type="file" name="photos" class="file-upload" accept="image/png, image/jpeg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>

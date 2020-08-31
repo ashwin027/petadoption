@@ -10,6 +10,7 @@ import {UserPet} from '../models/userPet';
 import { AuthService } from '../services/auth.service';
 import { UserProfile } from '../models/userProfile';
 import {UserPetService} from '../services/user-pet.service';
+import {DogBreedInfoDialogData} from '../models/dogBreedInfoDialogData';
 
 @Component({
   selector: 'app-add-pet-profile-dialog',
@@ -19,7 +20,6 @@ import {UserPetService} from '../services/user-pet.service';
 export class AddPetProfileDialogComponent implements OnInit {
   breedControl = new FormControl();
   genders = new Array<Gender>();
-  breeds = new Array<DogBreedInfo>();
   filteredOptions: Observable<DogBreedInfo[]>;
   petProfileForm = this.fb.group({
     name: ['', Validators.required],
@@ -29,21 +29,18 @@ export class AddPetProfileDialogComponent implements OnInit {
   });
   profile: UserProfile;
   constructor(private fb: FormBuilder, private petInfoService: PetInfoService, private userPetService: UserPetService, 
-    private auth: AuthService, public dialogRef: MatDialogRef<AddPetProfileDialogComponent>) {}
+    private auth: AuthService, public dialogRef: MatDialogRef<AddPetProfileDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DogBreedInfoDialogData) {}
 
   ngOnInit(): void {
     this.genders.push({ displayText: 'Male', value: 'male' });
     this.genders.push({ displayText: 'Female', value: 'female' });
     this.genders.push({ displayText: 'Don\'t know', value: 'dontknow' });
 
-    this.petInfoService.getAllBreeds().subscribe((breeds) => {
-      this.breeds = breeds;
-      this.filteredOptions = this.petProfileForm.get('breed').valueChanges.pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.breeds.slice())
-      );
-    });
+    this.filteredOptions = this.petProfileForm.get('breed').valueChanges.pipe(
+      startWith(''),
+      map(value => typeof value === 'string' ? value : value.name),
+      map(name => name ? this._filter(name) : this.data.breeds.slice())
+    );
 
     this.auth.userProfile$.subscribe((prfl) =>{
       this.profile = prfl;
@@ -51,8 +48,8 @@ export class AddPetProfileDialogComponent implements OnInit {
   }
 
   displayFn(breedId: Number): string {
-    if (this.breeds.length>0){
-      let breed = this.breeds.filter(b => b.id===breedId)[0];
+    if (this.data.breeds.length>0){
+      let breed = this.data.breeds.filter(b => b.id===breedId)[0];
       if (breed){
         return breed?.name;
       }
@@ -66,7 +63,7 @@ export class AddPetProfileDialogComponent implements OnInit {
   private _filter(name: string): DogBreedInfo[] {
     const filterValue = name.toLowerCase();
 
-    return this.breeds.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
+    return this.data.breeds.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
   onSubmit() {
