@@ -1,0 +1,36 @@
+
+<form [formGroup]="adoptionForm" (ngSubmit)="onSubmit()">
+    <div fxLayout="row" class="top-margin">
+        <div fxFlexOffset="10" fxFlex="70">
+            <h2>Adoption Details</h2>
+        </div>
+    </div>
+    
+    <div fxLayout="row">
+        <div fxFlexOffset="10" fxFlex="70">
+            <mat-form-field class="full-width">
+                <mat-label>Adoption Fees</mat-label>
+                <input matInput formControlName="fees">
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row">
+        <div fxFlexOffset="10" fxFlex="70">
+            <mat-form-field class="full-width">
+                <mat-label>Additional requirements</mat-label>
+                <textarea matInput placeholder="Please specify...." formControlName="additionalRequirements"></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row">
+        <div fxFlexOffset="10" fxFlex="70" fxLayoutAlign="start">
+            <span class="submit-button">
+                <button type="submit" mat-raised-button color="primary">Save</button>
+            </span>
+            <span>
+                <button type="button" mat-raised-button (click)="dialogRef.close()">Cancel</button>
+            </span>
+            
+        </div>
+    </div>
+</form>

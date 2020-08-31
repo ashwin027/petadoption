@@ -67,7 +67,6 @@ export class AddPetProfileDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
     let userPet: UserPet = {
       breedId: this.petProfileForm.value.breed,
       description: this.petProfileForm.value.description,

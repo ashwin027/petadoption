@@ -14,5 +14,6 @@ namespace PetAdoption.Models.Entities
         public string Status { get; set; }
         public double Fees { get; set; }
         public string BreedName { get; set; }
+        public string AdditionalRequirements { get; set; }
     }
 }

@@ -23,5 +23,7 @@ namespace PetAdoption.Models
         public double Fees { get; set; }
         [JsonProperty("breedName")]
         public string BreedName { get; set; }
+        [JsonProperty("additionalRequirements")]
+        public string AdditionalRequirements { get; set; }
     }
 }

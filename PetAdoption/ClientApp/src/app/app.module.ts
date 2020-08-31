@@ -10,13 +10,17 @@ import { ProfileComponent } from './profile/profile.component';
 import { PetProfileComponent } from './pet-profile/pet-profile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AddPetProfileDialogComponent } from './add-pet-profile-dialog/add-pet-profile-dialog.component';
+import { AdoptionsComponent } from './adoptions/adoptions.component';
+import { AdoptionDetailsDialogComponent } from './adoption-details-dialog/adoption-details-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProfileComponent,
     PetProfileComponent,
-    AddPetProfileDialogComponent
+    AddPetProfileDialogComponent,
+    AdoptionsComponent,
+    AdoptionDetailsDialogComponent
   ],
   imports: [
     BrowserModule,
