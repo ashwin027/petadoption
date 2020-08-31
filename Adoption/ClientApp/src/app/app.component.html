@@ -48,9 +48,9 @@
             </a>
           </li>
           <li>
-            <a routerLink="profile" *ngIf="auth.loggedIn">
-              <mat-icon class="icon">account_box</mat-icon>
-              <span class="label label-spacing">Profile</span>
+            <a routerLink="pet-profile" *ngIf="auth.loggedIn">
+              <fa-icon [icon]="faPaw"></fa-icon>
+              <span class="label label-spacing">Your Pets</span>
             </a>
           </li>
           <li>

@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
+using UserPetInfo.Api.Policies;
 using UserPetInfo.Models;
 using UserPetInfo.Models.Config;
 using UserPetInfo.Repository;
@@ -47,6 +48,7 @@ namespace UserPetInfo.Api
             });
 
             services.AddScoped<IUserPetRepository, UserPetRepository>();
+            services.AddCustomCorsPolicy();
 
             services.AddControllers();
         }
@@ -59,6 +61,7 @@ namespace UserPetInfo.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(CorsPolicy.CorsPolicyKey);
             app.UseRouting();
 
             app.UseAuthentication();

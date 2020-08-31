@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserPetInfo.Repository;
 
 namespace UserPetInfo.Repository.Migrations
 {
     [DbContext(typeof(UserPetContext))]
-    partial class UserPetContextModelSnapshot : ModelSnapshot
+    [Migration("20200831010055_Added-gender-column")]
+    partial class Addedgendercolumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

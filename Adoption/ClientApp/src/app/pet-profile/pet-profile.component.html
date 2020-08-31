@@ -1,0 +1,70 @@
+
+<form [formGroup]="petProfileForm" (ngSubmit)="onSubmit()">
+    <div fxLayout="row" class="top-margin">
+        <div fxFlexOffset="10" fxFlex="70">
+            <h2>Add a pet</h2>
+        </div>
+    </div>
+    
+    <div fxLayout="row">
+        <div fxFlexOffset="10" fxFlex="70">
+            <mat-form-field class="full-width">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" required>
+                <mat-error *ngIf="petProfileForm.controls.name?.errors && petProfileForm.controls.name?.touched">
+                    Please enter a name
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row">
+        <div fxFlexOffset="10" fxFlex="70">
+            <mat-form-field class="full-width">
+                <mat-label>Description</mat-label>
+                <textarea matInput placeholder="Describe your pet..." formControlName="description"></textarea>
+                <mat-error
+                    *ngIf="petProfileForm.controls.description?.errors && petProfileForm.controls.description?.touched">
+                    Please enter a description
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row">
+        <div fxFlexOffset="10" fxFlex="70">
+            <mat-label>Gender</mat-label>
+            <div>
+                <input type="radio" value="male" name="gender" formControlName="gender">
+                <label for="male">Male</label>
+            </div>
+            <div>
+                <input type="radio" value="female" name="gender" formControlName="gender">
+                <label for="female">Female</label>
+            </div>
+            <div>
+                <input type="radio" value="dontknow" name="gender" formControlName="gender">
+                <label for="female">Don't know</label>
+            </div>
+        </div>
+    </div>
+    <div fxLayout="row">
+        <div fxFlexOffset="10" fxFlex="70">
+            <mat-form-field class="full-width">
+                <mat-label>Breed</mat-label>
+                <input type="text" matInput formControlName="breed" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
+                    <mat-option *ngFor="let breed of filteredOptions | async" [value]="breed.id">
+                        {{breed.name}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="petProfileForm.controls.breed?.errors && petProfileForm.controls.breed?.touched">
+                    Please select a valid breed
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row">
+        <div fxFlexOffset="10" fxFlex="70" fxLayoutAlign="start">
+            <button type="submit" mat-raised-button color="primary" [disabled]="!petProfileForm.valid">Save</button>
+        </div>
+    </div>
+</form>

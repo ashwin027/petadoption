@@ -4,11 +4,17 @@ import { ProfileComponent } from './profile/profile.component';
 import {AuthGuard} from './auth.guard';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {InterceptorService} from './services/interceptor.service';
+import { PetProfileComponent } from './pet-profile/pet-profile.component';
 
 const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'pet-profile',
+    component: PetProfileComponent,
     canActivate: [AuthGuard]
   }
 ];

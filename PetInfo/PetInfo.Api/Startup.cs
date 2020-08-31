@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PetInfo.Api.Policies;
 using PetInfo.Models;
 using PetInfo.Models.Config;
 using PetInfo.Repository;
@@ -44,7 +45,7 @@ namespace PetInfo.Api
                     client.DefaultRequestHeaders.Add(Constants.ApiKey, dogEndpointInfo?.ApiKey);
                 });
 
-            services.AddAutoMapper(c => c.AddProfile<Mappings>(),typeof(Startup));
+            services.AddAutoMapper(c => c.AddProfile<Mappings>(), typeof(Startup));
 
             services.AddAuthentication(options =>
             {
@@ -55,6 +56,9 @@ namespace PetInfo.Api
                 options.Authority = $"https://{apiSettings?.AuthZeroSettings?.Domain}/";
                 options.Audience = apiSettings?.AuthZeroSettings?.Audience;
             });
+
+            // Allowing CORS temporarily. Need to switch to allowed origins configured in app settings
+            services.AddCustomCorsPolicy();
 
             services.AddControllers();
         }
@@ -67,6 +71,7 @@ namespace PetInfo.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(CorsPolicy.CorsPolicyKey);
             app.UseRouting();
 
             app.UseAuthentication();

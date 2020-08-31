@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/internal/Observable';
 })
 export class PetInfoService {
 
-  baseUrl = '/api/doginfo';
+  baseUrl = 'http://localhost:5002/api/doginfo';
 
   constructor(private http: HttpClient) { }
 

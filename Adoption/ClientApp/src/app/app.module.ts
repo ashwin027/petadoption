@@ -7,11 +7,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from './material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProfileComponent } from './profile/profile.component';
+import { PetProfileComponent } from './pet-profile/pet-profile.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfileComponent
+    ProfileComponent,
+    PetProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -19,6 +22,7 @@ import { ProfileComponent } from './profile/profile.component';
     BrowserAnimationsModule,
     MaterialModule,
     FontAwesomeModule,
+    HttpClientModule,
     ReactiveFormsModule
   ],
   providers: [],

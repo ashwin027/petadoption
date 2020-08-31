@@ -16,9 +16,6 @@ namespace UserPetInfo.Models
 
             CreateMap<UserPetEntity, UserPet>();
             CreateMap<UserPet, UserPetEntity>();
-
-            //CreateMap<PaginatedList<UserPetEntity>, PaginatedList<UserPet>>();
-            //CreateMap<PaginatedList<UserPet>, PaginatedList<UserPetEntity>>();
         }
     }
 }
