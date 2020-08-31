@@ -5,10 +5,6 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PetInfo", "PetInfo", "{9BA604F6-CE28-4725-82D7-1B824BB6631B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PetAdoptionIDP", "PetAdoptionIDP", "{0B538B59-3E4D-4949-9399-724741B7E7A2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetAdoption", "Adoption\PetAdoption.csproj", "{2893AB6E-BF36-489C-BC79-47173A93417D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetInfo.Api", "PetInfo\PetInfo.Api\PetInfo.Api.csproj", "{BC28B59B-8A4F-4DA1-97E7-88181F6D0E4E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetInfo.Models", "PetInfo\PetInfo.Models\PetInfo.Models.csproj", "{210F4716-91E4-4E7A-87D9-8EC1D2A69D4C}"
@@ -17,11 +13,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserPetInfo", "UserPetInfo"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetInfo.Repository", "PetInfo\PetInfo.Repository\PetInfo.Repository.csproj", "{0493C89B-B5E6-4808-8E43-4358FD180FAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPetInfo.Api", "UserPetInfo\UserPetInfo.Api\UserPetInfo.Api.csproj", "{91035CFC-1955-440C-90AF-3F502FD7E4B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserPetInfo.Api", "UserPetInfo\UserPetInfo.Api\UserPetInfo.Api.csproj", "{91035CFC-1955-440C-90AF-3F502FD7E4B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserPetInfo.Models", "UserPetInfo\UserPetInfo.Models\UserPetInfo.Models.csproj", "{FC7FBBCC-CAF0-4EF7-8424-8B4B57FFF7C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPetInfo.Repository", "UserPetInfo\UserPetInfo.Repository\UserPetInfo.Repository.csproj", "{D35366A7-F4AF-417E-B8B7-8F3C21A49623}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserPetInfo.Repository", "UserPetInfo\UserPetInfo.Repository\UserPetInfo.Repository.csproj", "{D35366A7-F4AF-417E-B8B7-8F3C21A49623}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetAdoption.Models", "PetAdoption.Models\PetAdoption.Models.csproj", "{060F834F-403C-4D67-96C7-43A89CBD3BAD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetAdoption.Repository", "PetAdoption.Repository\PetAdoption.Repository.csproj", "{247B0E5C-A9AB-476B-A519-BF90C95C18ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetAdoption", "PetAdoption\PetAdoption.csproj", "{2E6EC959-9190-4EA8-8591-CCEB0F117B3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2893AB6E-BF36-489C-BC79-47173A93417D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2893AB6E-BF36-489C-BC79-47173A93417D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2893AB6E-BF36-489C-BC79-47173A93417D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2893AB6E-BF36-489C-BC79-47173A93417D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BC28B59B-8A4F-4DA1-97E7-88181F6D0E4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BC28B59B-8A4F-4DA1-97E7-88181F6D0E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC28B59B-8A4F-4DA1-97E7-88181F6D0E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +55,18 @@ Global
 		{D35366A7-F4AF-417E-B8B7-8F3C21A49623}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D35366A7-F4AF-417E-B8B7-8F3C21A49623}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D35366A7-F4AF-417E-B8B7-8F3C21A49623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{060F834F-403C-4D67-96C7-43A89CBD3BAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{060F834F-403C-4D67-96C7-43A89CBD3BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{060F834F-403C-4D67-96C7-43A89CBD3BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{060F834F-403C-4D67-96C7-43A89CBD3BAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{247B0E5C-A9AB-476B-A519-BF90C95C18ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{247B0E5C-A9AB-476B-A519-BF90C95C18ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{247B0E5C-A9AB-476B-A519-BF90C95C18ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{247B0E5C-A9AB-476B-A519-BF90C95C18ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E6EC959-9190-4EA8-8591-CCEB0F117B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E6EC959-9190-4EA8-8591-CCEB0F117B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E6EC959-9190-4EA8-8591-CCEB0F117B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E6EC959-9190-4EA8-8591-CCEB0F117B3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

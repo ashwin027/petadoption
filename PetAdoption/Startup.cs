@@ -1,9 +1,16 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PetAdoption.Models;
+using PetAdoption.Models.Config;
+using PetAdoption.Policies;
+using PetAdoption.Repository;
 
 namespace PetAdoption
 {
@@ -20,6 +27,24 @@ namespace PetAdoption
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<AdoptionContext>(options => options.UseSqlServer(Configuration.GetConnectionString(AppConstants.AdoptionConnectionStringKey)));
+
+            services.AddAutoMapper(c => c.AddProfile<Mappings>(), typeof(Startup));
+
+            var apiSettings = Configuration.GetSection(ApiSettingsOptions.ApiSettings).Get<ApiSettingsOptions>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = $"https://{apiSettings?.AuthZeroSettings?.Domain}/";
+                options.Audience = apiSettings?.AuthZeroSettings?.Audience;
+            });
+
+            services.AddScoped<IAdoptionRepository, AdoptionRepository>();
+            services.AddCustomCorsPolicy();
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -39,6 +64,7 @@ namespace PetAdoption
                 app.UseExceptionHandler("/Error");
             }
 
+            app.UseCors(CorsPolicy.CorsPolicyKey);
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
@@ -46,6 +72,9 @@ namespace PetAdoption
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
