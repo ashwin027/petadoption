@@ -27,6 +27,7 @@
         <div fxFlexOffset="10" fxFlex="70">
             <div fxLayout="row" class="rows-wrapper">
                 <div fxFlex="50" class="row-container">
+
                     <div fxLayout="row" class="label-row">
                         <div fxFlex="100">
                             <div fxFlex="33">
@@ -43,11 +44,19 @@
                             </div>
                         </div>
                     </div>
-                    <div fxLayout="row" class="label-row">
+                    <div fxLayout="row" class="label-row description">
                         <div fxFlex="100">
                             <label class="label">Description</label>
                             <div>{{selectedUserPet.description}}</div>
                         </div>
+                    </div>
+                    <div fxLayout="row">
+                        <span class="submit-button">
+                            <button type="button" mat-raised-button color="primary">Put up for adoption</button>
+                        </span>
+                        <span>
+                            <button type="button" mat-raised-button color="warn">Delete</button>
+                        </span>
                     </div>
                 </div>
                 <div fxFlex="50" class="row-container">
