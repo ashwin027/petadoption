@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AddPetProfileDialogComponent } from './add-pet-profile-dialog/add-pet-profile-dialog.component';
 import { AdoptionsComponent } from './adoptions/adoptions.component';
 import { AdoptionDetailsDialogComponent } from './adoption-details-dialog/adoption-details-dialog.component';
+import { AdoptPetComponent } from './adopt-pet/adopt-pet.component';
+import { TelephoneInputComponent } from './telephone-input/telephone-input.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { AdoptionDetailsDialogComponent } from './adoption-details-dialog/adopti
     PetProfileComponent,
     AddPetProfileDialogComponent,
     AdoptionsComponent,
-    AdoptionDetailsDialogComponent
+    AdoptionDetailsDialogComponent,
+    AdoptPetComponent,
+    TelephoneInputComponent
   ],
   imports: [
     BrowserModule,

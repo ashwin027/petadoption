@@ -43,6 +43,7 @@ namespace PetAdoption
             });
 
             services.AddScoped<IAdoptionRepository, AdoptionRepository>();
+            services.AddScoped<IAdopterDetailRepository, AdopterDetailRepository>();
             services.AddCustomCorsPolicy();
 
             // In production, the Angular files will be served from this directory

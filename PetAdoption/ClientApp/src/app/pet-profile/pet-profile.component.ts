@@ -53,7 +53,7 @@ export class PetProfileComponent implements OnInit {
 
   setAdoptionStatuses() {
     this.adoptions.forEach(adoption => {
-      var userPet = this.userPets.find(us => us.id === adoption.petId);
+      var userPet = this.userPets.find(us => us.id === adoption.userPetId);
       if (userPet) {
         userPet.adoption = adoption;
         switch (adoption.status) {
@@ -118,7 +118,7 @@ export class PetProfileComponent implements OnInit {
           adopteeId: this.profile.sub,
           breedName: this.selectedBreed.name,
           fees: (result && result.fees.toString()!=='')?result.fees:0,
-          petId: this.selectedUserPet.id,
+          userPetId: this.selectedUserPet.id,
           petName: this.selectedUserPet.name,
           status: AdoptionStatus.Available
         }

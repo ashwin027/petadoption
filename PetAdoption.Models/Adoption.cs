@@ -13,8 +13,8 @@ namespace PetAdoption.Models
         public string AdopteeId { get; set; }
         [JsonProperty("adopterId")]
         public string AdopterId { get; set; }
-        [JsonProperty("petId")]
-        public int PetId { get; set; }
+        [JsonProperty("userPetId")]
+        public int UserPetId { get; set; }
         [JsonProperty("petName")]
         public string PetName { get; set; }
         [JsonProperty("status")]
@@ -25,5 +25,7 @@ namespace PetAdoption.Models
         public string BreedName { get; set; }
         [JsonProperty("additionalRequirements")]
         public string AdditionalRequirements { get; set; }
+        [JsonProperty("adopterDetailId")]
+        public int AdopterDetailId { get; set; }
     }
 }

@@ -11,7 +11,10 @@ namespace PetAdoption.Models
         public Mappings()
         {
             CreateMap<AdoptionEntity, Adoption>();
-            CreateMap<Adoption, AdoptionEntity>();
+            CreateMap<Adoption, AdoptionEntity>().ForMember(src => src.AdopterDetails, opt => opt.Ignore());
+
+            CreateMap<AdopterDetail, AdopterDetailEntity>().ForMember(src => src.Adoption, opt => opt.Ignore());
+            CreateMap<AdopterDetailEntity, AdopterDetail>();
         }
     }
 }

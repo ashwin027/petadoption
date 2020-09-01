@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PetAdoption.Models;
 
 namespace PetAdoption.Repository
 {
@@ -76,12 +77,13 @@ namespace PetAdoption.Repository
             }
         }
 
-        public async Task<PaginatedList<AdoptionEntity>> GetAllAdoptions(int? pageNumber, int? pageSize)
+        public async Task<PaginatedList<AdoptionEntity>> GetAllOpenAdoptions(int? pageNumber, int? pageSize)
         {
             try
             {
                 IQueryable<AdoptionEntity> userPets = from u in _adoptionContext.Adoptions
-                    select u;
+                                                      where u.Status==AdoptionStatus.Available || u.Status == AdoptionStatus.Pending
+                                                      select u;
                 return await PaginatedList<AdoptionEntity>.CreateAsync(userPets.AsNoTracking(), pageNumber ?? DefaultPageIndex, pageSize ?? DefaultPageSize);
             }
             catch (Exception ex)
@@ -91,13 +93,13 @@ namespace PetAdoption.Repository
             }
         }
 
-        public List<AdoptionEntity> GetAllAdoptionsForUser(string userId)
+        public async Task<List<AdoptionEntity>> GetAllAdoptionsForUser(string userId)
         {
             try
             {
                 var adoptions = _adoptionContext.Adoptions.Where(a => a.AdopteeId==userId);
 
-                return adoptions.ToList();
+                return await adoptions.ToListAsync();
             }
             catch (Exception ex)
             {
@@ -137,10 +139,11 @@ namespace PetAdoption.Repository
 
                 existingAdoption.Id = adoption.Id;
                 existingAdoption.BreedName = adoption.BreedName;
-                existingAdoption.PetId = adoption.PetId;
+                existingAdoption.UserPetId = adoption.UserPetId;
                 existingAdoption.PetName = adoption.PetName;
                 existingAdoption.Fees = adoption.Fees;
                 existingAdoption.AdopteeId = adoption.AdopteeId;
+                existingAdoption.AdopterDetailId = adoption.AdopterDetailId;
                 existingAdoption.AdopterId = adoption.AdopterId;
                 existingAdoption.Status = adoption.Status;
                 

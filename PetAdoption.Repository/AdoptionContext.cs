@@ -11,6 +11,7 @@ namespace PetAdoption.Repository
     public class AdoptionContext: DbContext
     {
         public DbSet<AdoptionEntity> Adoptions { get; set; }
+        public DbSet<AdopterDetailEntity> AdopterDetails { get; set; }
 
         public AdoptionContext(DbContextOptions<AdoptionContext> options) : base(options)
         {

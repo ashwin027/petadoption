@@ -67,7 +67,7 @@ namespace PetAdoption.Controllers
         {
             try
             {
-                var adoptionEntities = await _adoptionRepository.GetAllAdoptions(paginationParams?.PageIndex, paginationParams?.PageSize);
+                var adoptionEntities = await _adoptionRepository.GetAllOpenAdoptions(paginationParams?.PageIndex, paginationParams?.PageSize);
 
                 if (adoptionEntities == null)
                 {
@@ -86,11 +86,11 @@ namespace PetAdoption.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public ActionResult<PaginatedList<Adoption>> GetAdoptionsForUser(string userId)
+        public async Task<ActionResult<PaginatedList<Adoption>>> GetAdoptionsForUser(string userId)
         {
             try
             {
-                var adoptionEntities = _adoptionRepository.GetAllAdoptionsForUser(userId);
+                var adoptionEntities = await _adoptionRepository.GetAllAdoptionsForUser(userId);
 
                 if (adoptionEntities == null)
                 {
@@ -179,7 +179,7 @@ namespace PetAdoption.Controllers
                 var entity = await _adoptionRepository.GetAdoption(adoptionEntity.Id);
                 if (entity == null)
                 {
-                    _logger.LogError("Server Error in AdoptionController, method: UpdateAdoption(). User pet not found.");
+                    _logger.LogError("Server Error in AdoptionController, method: UpdateAdoption(). Adoption record not found.");
                     return NotFound();
                 }
 
@@ -187,7 +187,7 @@ namespace PetAdoption.Controllers
 
                 if (result == null)
                 {
-                    _logger.LogError("Server Error in AdoptionController, method: UpdateAdoption(). User pet update failed.");
+                    _logger.LogError("Server Error in AdoptionController, method: UpdateAdoption(). Adoption record update failed.");
                     return StatusCode(500);
                 }
 
@@ -220,7 +220,7 @@ namespace PetAdoption.Controllers
                 var currentLoggedInUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (!currentLoggedInUser.Equals(userId, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    _logger.LogError($"AdoptionController, method: UpdateUserPet(). User with id: {currentLoggedInUser} attempting to delete an adoption with a different user ID.");
+                    _logger.LogError($"AdoptionController, method: DeleteAdoption(). User with id: {currentLoggedInUser} attempting to delete an adoption with a different user ID.");
                     return Unauthorized();
                 }
 

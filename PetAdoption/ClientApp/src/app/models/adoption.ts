@@ -6,8 +6,9 @@ export class Adoption extends AdoptionAdditionalDetails{
     id?: number;
     adopteeId: string;
     adopterId?: string;
-    petId: number;
+    userPetId: number;
     petName: string;
     status: AdoptionStatus;
     breedName: string;
+    adopterDetailId?: number;
 }
