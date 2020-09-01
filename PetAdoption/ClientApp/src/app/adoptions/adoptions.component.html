@@ -1,1 +1,36 @@
-<p>adoptions works!</p>
+<div fxLayout="row" class="top-margin">
+    <div fxFlexOffset="5" fxFlex="70">
+        <div fxLayout="row" class="top-margin">
+            <mat-card class="pet-card" *ngFor="let adoption of adoptions">
+                <mat-card-header>
+                    <!-- <div mat-card-avatar class="pet-header-image"></div> -->
+                    <mat-card-title>{{adoption.petName}}</mat-card-title>
+                    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+                </mat-card-header>
+                <div class="pet-image">No images available</div>
+                <!-- <img mat-card-image class="pet-image" src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo"> -->
+                <mat-card-actions>
+                    <div class="actions">
+                        <div class="status-chip">
+                            <mat-chip-list [ngSwitch]="adoption?.adoptionStatus">
+                                <mat-chip [color]="'primary'" *ngSwitchCase="Constants.Available">
+                                    {{adoption?.adoptionStatus}}
+                                </mat-chip>
+                                <mat-chip [color]="'accent'" *ngSwitchCase="Constants.Pending">
+                                    {{adoption?.adoptionStatus}}
+                                </mat-chip>
+                                <mat-chip [color]="'warn'" *ngSwitchCase="Constants.Closed">
+                                    {{adoption?.adoptionStatus}}
+                                </mat-chip>
+                            </mat-chip-list>
+                        </div>
+                        <div>
+                            <button mat-button *ngIf="(!profile || (profile.sub!==adoption.adopteeId))" (click)="adopt()">Adopt</button>
+                        </div>
+                    </div>
+                </mat-card-actions>
+            </mat-card>
+            <div *ngIf="adoptions.length===0">No pets found for adoptions.</div>
+        </div>
+    </div>
+</div>

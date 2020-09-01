@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 import {DogBreedInfo} from '../models/dogBreedInfo';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -10,13 +10,15 @@ export class PetInfoService {
 
   baseUrl = 'http://localhost:5002/api/doginfo';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private handler: HttpBackend) { }
 
   getAllBreeds(): Observable<Array<DogBreedInfo>> {
-    return this.http.get<Array<DogBreedInfo>>(`${this.baseUrl}/getbreeds`);
+    let httpClient = new HttpClient(this.handler);
+    return httpClient.get<Array<DogBreedInfo>>(`${this.baseUrl}/getbreeds`);
   }
 
   searchBreeds(searchStr: string): Observable<Array<DogBreedInfo>> {
-    return this.http.get<Array<DogBreedInfo>>(`${this.baseUrl}/searchbreed/${searchStr}`);
+    let httpClient = new HttpClient(this.handler);
+    return httpClient.get<Array<DogBreedInfo>>(`${this.baseUrl}/searchbreed/${searchStr}`);
   }
 }

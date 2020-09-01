@@ -1,0 +1,26 @@
+.top-margin {
+  margin-top: 20px;
+}
+
+.pet-card {
+  width: 400px;
+  margin: 5px;
+}
+
+.pet-image {
+  align-items: center;
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0 10px #d6dde1;
+  margin-bottom: 5px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+}
+
+.status-chip {
+  margin-right: 10px;
+}

@@ -61,6 +61,7 @@ namespace PetAdoption.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<PaginatedList<Adoption>>> GetAdoptions([FromQuery] PaginationParams paginationParams)
         {

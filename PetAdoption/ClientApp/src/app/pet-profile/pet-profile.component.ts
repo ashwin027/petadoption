@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
-import { Gender } from '../models/gender';
 import { DogBreedInfo } from '../models/dogBreedInfo';
 import { PetInfoService } from '../services/pet-info.service';
 import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
 import { UserPet } from '../models/userPet';
 import { AuthService } from '../services/auth.service';
 import { UserProfile } from '../models/userProfile';
@@ -12,7 +9,6 @@ import { UserPetService } from '../services/user-pet.service';
 import { AdoptionService } from '../services/adoption.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPetProfileDialogComponent } from '../add-pet-profile-dialog/add-pet-profile-dialog.component';
-import { MatSelectChange } from '@angular/material/select';
 import { AdoptionDetailsDialogComponent } from '../adoption-details-dialog/adoption-details-dialog.component';
 import { AdoptionAdditionalDetails } from '../models/adoptionAdditionalDetails';
 import { Adoption } from '../models/adoption';
@@ -84,7 +80,7 @@ export class PetProfileComponent implements OnInit {
     }
   }
 
-  OpenAddPetDialog(): void {
+  openAddPetDialog(): void {
     const dialogRef = this.dialog.open(AddPetProfileDialogComponent, {
       width: '500px',
       data: {
@@ -99,7 +95,7 @@ export class PetProfileComponent implements OnInit {
     });
   }
 
-  selectPet(selectedChange: MatSelectChange): void {
+  selectPet(): void {
     this.selectedBreed = this.breeds.find(b => b.id === this.selectedUserPet.breedId);
   }
 
@@ -110,11 +106,7 @@ export class PetProfileComponent implements OnInit {
     });
   }
 
-  getAdoptionsForUser(): Observable<Array<Adoption>> {
-    return this.adoptionService.getAdoptionsForUser(this.profile.sub);
-  }
-
-  PutUpForAdoption() {
+  putUpForAdoption() {
     const dialogRef = this.dialog.open(AdoptionDetailsDialogComponent, {
       width: '500px'
     });
@@ -130,10 +122,24 @@ export class PetProfileComponent implements OnInit {
           petName: this.selectedUserPet.name,
           status: AdoptionStatus.Available
         }
-        this.adoptionService.createAdoption(adoption).subscribe((adoption) => {
-          this.selectedUserPet.adoption = adoption;
+        this.adoptionService.createAdoption(adoption).subscribe(() => {
+          this.adoptionService.getAdoptionsForUser(this.profile.sub).subscribe((adoptions) => {
+            this.adoptions = adoptions;
+            this.setAdoptionStatuses();
+          })
         });
       }
+    });
+  }
+
+  RemoveAdoption() {
+    this.adoptionService.deleteAdoption(this.profile.sub, this.selectedUserPet.adoption.id).subscribe(() => {
+      this.adoptionService.getAdoptionsForUser(this.profile.sub).subscribe((adoptions) => {
+        this.adoptions = adoptions;
+        this.selectedUserPet.adoption = null;
+        this.selectedUserPet.adoptionStatus = null;
+        this.setAdoptionStatuses();
+      });
     });
   }
 }

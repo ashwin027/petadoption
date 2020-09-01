@@ -30,8 +30,6 @@ namespace PetInfo.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<ApiSettingsOptions>(Configuration.GetSection(ApiSettingsOptions.ApiSettings));
-
             var apiSettings = Configuration.GetSection(ApiSettingsOptions.ApiSettings).Get<ApiSettingsOptions>();
             var dogEndpointInfo = apiSettings?.Endpoints?.FirstOrDefault(x => x.Type.Equals(AnimalType.Dogs));
 
@@ -46,16 +44,6 @@ namespace PetInfo.Api
                 });
 
             services.AddAutoMapper(c => c.AddProfile<Mappings>(), typeof(Startup));
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.Authority = $"https://{apiSettings?.AuthZeroSettings?.Domain}/";
-                options.Audience = apiSettings?.AuthZeroSettings?.Audience;
-            });
 
             // Allowing CORS temporarily. Need to switch to allowed origins configured in app settings
             services.AddCustomCorsPolicy();
@@ -74,7 +62,6 @@ namespace PetInfo.Api
             app.UseCors(CorsPolicy.CorsPolicyKey);
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

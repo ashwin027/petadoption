@@ -14,7 +14,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <button type="button" mat-raised-button color="primary" (click)="OpenAddPetDialog()">Add a pet</button>
+        <button type="button" mat-raised-button color="primary" (click)="openAddPetDialog()">Add a pet</button>
     </div>
 </div>
 <div *ngIf="selectedUserPet!=null && userPets.length>0">
@@ -52,20 +52,11 @@
                     </div>
                     <div fxLayout="row">
                         <span class="submit-button">
-                            <mat-chip-list [ngSwitch]="selectedUserPet?.adoptionStatus">
-                                <mat-chip [color]="'primary'" *ngSwitchCase="Constants.Available">
-                                    {{selectedUserPet?.adoptionStatus}}
-                                </mat-chip>
-                                <mat-chip [color]="'accent'" *ngSwitchCase="Constants.Pending">
-                                    {{selectedUserPet?.adoptionStatus}}
-                                </mat-chip>
-                                <mat-chip [color]="'warn'" *ngSwitchCase="Constants.Closed">
-                                    {{selectedUserPet?.adoptionStatus}}
-                                </mat-chip>
-                            </mat-chip-list>
                             <button *ngIf="!selectedUserPet?.adoptionStatus" type="button" mat-raised-button
-                                color="primary" (click)="PutUpForAdoption()">Put up
+                                color="primary" (click)="putUpForAdoption()">Put up
                                 for adoption</button>
+                            <button *ngIf="selectedUserPet?.adoptionStatus" type="button" mat-raised-button
+                                color="primary" (click)="RemoveAdoption()">Remove adoption</button>
                         </span>
                         <span>
                             <button type="button" mat-raised-button color="warn">Delete</button>

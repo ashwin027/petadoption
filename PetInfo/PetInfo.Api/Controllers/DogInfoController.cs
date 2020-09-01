@@ -15,7 +15,7 @@ using PetInfo.Repository;
 namespace PetInfo.Api.Controllers
 {
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     public class DogInfoController : ControllerBase
     {
