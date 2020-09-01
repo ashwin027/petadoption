@@ -12,11 +12,12 @@ import { Adoption } from '../models/adoption';
 import { AdoptPetDialogData } from '../models/adoptPetDialogData';
 import { AdopterDetail } from '../models/adopterDetail';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AdoptPetComponent } from '../adopt-pet/adopt-pet.component';
 import { AdopterDetailsDialogData } from '../models/adopterDetailsDialogData';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MessagingService } from '../services/messaging.service';
 
 @Component({
   selector: 'app-adoptions',
@@ -32,10 +33,13 @@ export class AdoptionsComponent implements OnInit {
 
   constructor(private auth: AuthService, private adoptionService: AdoptionService,
     private petInfoService: PetInfoService, private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog, public messagingService: MessagingService) { }
 
   ngOnInit(): void {
     this.auth.userProfile$.subscribe((prfl) => {
+      if (prfl){
+        this.messagingService.initializeConnection();
+      }
       this.profile = prfl;
       Observable.forkJoin([
         this.petInfoService.getAllBreeds(),

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using PetAdoption.Hubs;
 using PetAdoption.Models;
 using PetAdoption.Models.Common;
 using PetAdoption.Models.Entities;
@@ -22,12 +24,14 @@ namespace PetAdoption.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<AdoptionController> _logger;
         private readonly IAdoptionRepository _adoptionRepository;
+        private readonly IHubContext<AdoptionHub> _hubContext;
 
-        public AdoptionController(ILogger<AdoptionController> logger, IAdoptionRepository adoptionRepository, IMapper mapper)
+        public AdoptionController(ILogger<AdoptionController> logger, IAdoptionRepository adoptionRepository, IMapper mapper, IHubContext<AdoptionHub> hubContext)
         {
             _mapper = mapper;
             _logger = logger;
             _adoptionRepository = adoptionRepository;
+            _hubContext = hubContext;
         }
 
         [HttpGet("{id}")]
@@ -224,6 +228,7 @@ namespace PetAdoption.Controllers
                 }
 
                 var adoption = _mapper.Map<Adoption>(entity);
+                var originalStatus = adoption.Status;
 
                 adoption.AdopterDetails = adopterDetail;
                 adoption.Status = AdoptionStatus.Pending;
@@ -239,6 +244,15 @@ namespace PetAdoption.Controllers
                     return StatusCode(500);
                 }
 
+                if (originalStatus != adoption.Status)
+                {
+                    var notification = new Notification()
+                    {
+                        NotificationId = Guid.NewGuid(),
+                        Message = $"Adoption request received for {adoption.PetName}"
+                    };
+                    await _hubContext.Clients.User(adoption.AdopteeId).SendAsync("adoptionRequestReceived", notification);
+                }
                 return Ok(_mapper.Map<Adoption>(adoptionEntity));
             }
             catch (Exception ex)

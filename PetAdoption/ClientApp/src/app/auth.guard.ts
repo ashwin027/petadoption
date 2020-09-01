@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from './services/auth.service';
 import { tap } from 'rxjs/operators';
 import { BuiltinType } from '@angular/compiler';
+import { MessagingService } from './services/messaging.service';
 
 @Injectable({
   providedIn: 'root'

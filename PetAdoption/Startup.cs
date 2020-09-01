@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PetAdoption.Hubs;
 using PetAdoption.Models;
 using PetAdoption.Models.Config;
 using PetAdoption.Policies;
@@ -16,6 +18,7 @@ namespace PetAdoption
 {
     public class Startup
     {
+        private const string AdoptionHub = "/adoptionHub";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -40,10 +43,29 @@ namespace PetAdoption
             {
                 options.Authority = $"https://{apiSettings?.AuthZeroSettings?.Domain}/";
                 options.Audience = apiSettings?.AuthZeroSettings?.Audience;
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+
+                        // If the request is for our hub...
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (path.StartsWithSegments(AdoptionHub)))
+                        {
+                            // Read the token out of the query string
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             services.AddScoped<IAdoptionRepository, AdoptionRepository>();
             services.AddCustomCorsPolicy();
+
+            services.AddSignalR();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -81,6 +103,8 @@ namespace PetAdoption
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+
+                endpoints.MapHub<AdoptionHub>(AdoptionHub);
             });
 
             app.UseSpa(spa =>

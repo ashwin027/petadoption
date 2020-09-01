@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 import {AuthService} from './services/auth.service'
+import {MessagingService} from './services/messaging.service'
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,5 @@ export class AppComponent {
   title = 'petadoption';
 
   constructor(public auth: AuthService){
-
   }
-
 }
