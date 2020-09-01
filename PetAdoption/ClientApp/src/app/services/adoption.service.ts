@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpBackend } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Adoption } from '../models/adoption';
+import { AdopterDetail } from '../models/adopterDetail';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,14 @@ export class AdoptionService {
 
   createAdoption(adoption: Adoption): Observable<Adoption> {
     return this.http.post<Adoption>(`/api/adoption`, adoption);
+  }
+
+  updateAdoption(adoption: Adoption): Observable<Adoption> {
+    return this.http.put<Adoption>(`/api/adoption`, adoption);
+  }
+
+  updateAdoptionWithDetails(adopterDetails: AdopterDetail): Observable<Adoption> {
+    return this.http.put<Adoption>(`/api/adoption/details`, adopterDetails);
   }
 
   getAdoptions(): Observable<Array<Adoption>>{

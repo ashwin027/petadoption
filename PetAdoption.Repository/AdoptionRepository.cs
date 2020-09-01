@@ -131,7 +131,7 @@ namespace PetAdoption.Repository
                     return null;
                 }
 
-                var existingAdoption = await _adoptionContext.Adoptions.FindAsync(adoption.Id);
+                var existingAdoption = await _adoptionContext.Adoptions.Include(p => p.AdopterDetails).FirstOrDefaultAsync(ad => ad.Id==adoption.Id);
                 if (existingAdoption == null)
                 {
                     return null;
@@ -143,9 +143,13 @@ namespace PetAdoption.Repository
                 existingAdoption.PetName = adoption.PetName;
                 existingAdoption.Fees = adoption.Fees;
                 existingAdoption.AdopteeId = adoption.AdopteeId;
-                existingAdoption.AdopterDetailId = adoption.AdopterDetailId;
                 existingAdoption.AdopterId = adoption.AdopterId;
                 existingAdoption.Status = adoption.Status;
+
+                if (adoption.AdopterDetails != null)
+                {
+                    existingAdoption.AdopterDetails = adoption.AdopterDetails;
+                }
                 
                 await _adoptionContext.SaveChangesAsync();
 

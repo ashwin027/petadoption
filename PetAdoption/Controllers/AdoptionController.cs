@@ -148,7 +148,6 @@ namespace PetAdoption.Controllers
                 _logger.LogError("Server Error in AdoptionController, method: CreateAdoption().", ex);
                 return StatusCode(500);
             }
-
         }
 
         [HttpPut]
@@ -196,6 +195,55 @@ namespace PetAdoption.Controllers
             catch (Exception ex)
             {
                 _logger.LogError("Server Error in AdoptionController, method: UpdateAdoption().", ex);
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPut("details")]
+        public async Task<ActionResult<Adoption>> UpdateAdoptionWithDetails(AdopterDetail adopterDetail)
+        {
+            try
+            {
+                if (adopterDetail == null)
+                {
+                    _logger.LogError("Bad request in AdoptionController, method: UpdateAdoptionWithDetails(). Request is null.");
+                    return BadRequest();
+                }
+
+                if (string.IsNullOrWhiteSpace(adopterDetail.AdoptionId.ToString()))
+                {
+                    _logger.LogError("Bad request in AdoptionController, method: UpdateAdoptionWithDetails(). Adoption ID is null.");
+                    return BadRequest();
+                }
+
+                var entity = await _adoptionRepository.GetAdoption(adopterDetail.AdoptionId);
+                if (entity == null)
+                {
+                    _logger.LogError("Server Error in AdoptionController, method: UpdateAdoptionWithDetails(). Adoption record not found.");
+                    return NotFound();
+                }
+
+                var adoption = _mapper.Map<Adoption>(entity);
+
+                adoption.AdopterDetails = adopterDetail;
+                adoption.Status = AdoptionStatus.Pending;
+                adoption.AdopterId = adopterDetail.UserId;
+
+                var adoptionEntityToSave = _mapper.Map<AdoptionEntity>(adoption);
+
+                var adoptionEntity = await _adoptionRepository.UpdateAdoption(adoptionEntityToSave);
+
+                if (adoptionEntity == null)
+                {
+                    _logger.LogError("Server Error in AdoptionController, method: UpdateAdoptionWithDetails(). Adoption record update failed.");
+                    return StatusCode(500);
+                }
+
+                return Ok(_mapper.Map<Adoption>(adoptionEntity));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Server Error in AdoptionController, method: UpdateAdoptionWithDetails().", ex);
                 return StatusCode(500);
             }
         }

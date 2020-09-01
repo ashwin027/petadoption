@@ -31,7 +31,7 @@ export class AdoptionsComponent implements OnInit {
 
   constructor(private auth: AuthService, private adoptionService: AdoptionService,
     private petInfoService: PetInfoService, private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog, private adopterDetailService: AdopterDetailService) { }
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.auth.userProfile$.subscribe((prfl) => {
@@ -103,7 +103,7 @@ export class AdoptionsComponent implements OnInit {
             userId: result.userId,
             userPetId: adoption.userPetId
           };
-          this.adopterDetailService.createAdopterDetails(adopterDetails).subscribe((savedAdopterDetails) => {
+          this.adoptionService.updateAdoptionWithDetails(adopterDetails).subscribe((savedAdoption) => {
             this.getAllAdoptions();
           });
         }

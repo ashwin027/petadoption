@@ -25,7 +25,7 @@ namespace PetAdoption.Models
         public string BreedName { get; set; }
         [JsonProperty("additionalRequirements")]
         public string AdditionalRequirements { get; set; }
-        [JsonProperty("adopterDetailId")]
-        public int AdopterDetailId { get; set; }
+        [JsonProperty("adopterDetail")]
+        public AdopterDetail AdopterDetails { get; set; }
     }
 }

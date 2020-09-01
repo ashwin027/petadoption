@@ -15,9 +15,6 @@ namespace PetAdoption.Models.Entities
         public double Fees { get; set; }
         public string BreedName { get; set; }
         public string AdditionalRequirements { get; set; }
-
-        // Foreign key
-        public int AdopterDetailId { get; set; }
         public AdopterDetailEntity AdopterDetails { get; set; }
     }
 }
