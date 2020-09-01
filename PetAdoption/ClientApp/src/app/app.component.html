@@ -34,9 +34,19 @@
             </a>
           </li>
           <li *ngIf="auth.loggedIn">
-            <span class="material-icons">
-              notifications
-            </span>
+            <button (click)="openNotifications()" mat-icon-button [matMenuTriggerFor]="menu"
+              #menuTrigger="matMenuTrigger">
+              <mat-icon [matBadge]="notificationCounter" matBadgeColor="warn">
+                <i class="material-icons md-30">notifications</i>
+              </mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <div *ngFor="let notification of notifications">
+                <div class="notification-message">
+                  <a routerLink="pet-profile" class="message-link">{{notification?.message}}</a>
+                </div>
+              </div>
+            </mat-menu>
           </li>
           <li>
             <a (click)="auth.logout()" *ngIf="auth.loggedIn">

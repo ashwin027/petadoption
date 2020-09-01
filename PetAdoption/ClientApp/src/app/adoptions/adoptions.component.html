@@ -27,7 +27,7 @@
                                     </mat-chip-list>
                                 </div>
                                 <div class="center-items">
-                                    <button mat-button *ngIf="(!profile || (profile.sub!==adoption.adopteeId) && (!adoption.adopterId))"
+                                    <button mat-button *ngIf="((!profile || profile.sub!==adoption.adopteeId) && (!adoption.adopterId))"
                                         (click)="adopt(adoption)">Adopt</button>
                                     <span *ngIf="(profile) && (profile?.sub===adoption.adopteeId)">This is your pet!</span>
                                 </div>

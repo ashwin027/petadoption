@@ -3,12 +3,14 @@ import * as signalR from "@microsoft/signalr";
 import { Subject, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { mergeMap, catchError } from 'rxjs/operators';
+import {AppNotification} from '../models/appNotification'
+import { NoticicationType } from '../models/notificationType';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessagingService {
-  notificationSubject = new Subject<Notification>();
+  notificationSubject = new Subject<AppNotification>();
   hubName = 'adoptionHub';
   connection: signalR.HubConnection;
   constructor(private auth: AuthService) { }
@@ -30,9 +32,9 @@ export class MessagingService {
 
     this.connection.start().catch(err => document.write(err));
 
-    this.connection.on("adoptionRequestReceived", (notification: Notification) => {
+    this.connection.on("adoptionRequestReceived", (notification: AppNotification) => {
+      notification.type = NoticicationType.AdoptionRequest;
       this.notificationSubject.next(notification);
-      console.log(notification);
     });
   }
 }

@@ -33,7 +33,7 @@
             <div fxLayout="row" class="rows-wrapper">
                 <div fxFlex="50" class="row-container">
 
-                    <div fxLayout="row" class="label-row">
+                    <div fxLayout="row" class="label-row info">
                         <div fxFlex="100">
                             <div fxFlex="33">
                                 <label class="label">Name</label>
@@ -56,15 +56,20 @@
                         </div>
                     </div>
                     <div fxLayout="row">
-                        <span class="submit-button">
-                            <button *ngIf="!selectedUserPet?.adoptionStatus" type="button" mat-raised-button
-                                color="primary" (click)="putUpForAdoption()">Put up
+                        <span class="button-spacing">
+                            <button class="custom-button" *ngIf="!selectedUserPet?.adoptionStatus" type="button"
+                                mat-raised-button color="primary" (click)="putUpForAdoption()">Put up
                                 for adoption</button>
-                            <button *ngIf="selectedUserPet?.adoptionStatus" type="button" mat-raised-button
-                                color="primary" (click)="RemoveAdoption()">Remove adoption</button>
+                            <button class="custom-button" *ngIf="selectedUserPet?.adoptionStatus" type="button"
+                                mat-raised-button color="primary" (click)="RemoveAdoption()">Remove adoption</button>
                         </span>
-                        <span>
-                            <button type="button" mat-raised-button color="warn">Delete</button>
+                        <span class="button-spacing">
+                            <button class="custom-button" *ngIf="selectedUserPet?.adoptionStatus===Constants.Pending"
+                                type="button" mat-raised-button color="primary" (click)="viewRequest()">View
+                                Request</button>
+                        </span>
+                        <span class="button-spacing">
+                            <button class="custom-button" type="button" mat-raised-button color="warn">Delete</button>
                         </span>
                     </div>
                 </div>

@@ -68,7 +68,7 @@ namespace PetAdoption.Repository
                     return null;
                 }
 
-                return await _adoptionContext.Adoptions.FirstOrDefaultAsync(query => query.Id == id);
+                return await _adoptionContext.Adoptions.Include(adp => adp.AdopterDetails).FirstOrDefaultAsync(query => query.Id == id);
             }
             catch (Exception ex)
             {
@@ -97,7 +97,7 @@ namespace PetAdoption.Repository
         {
             try
             {
-                var adoptions = _adoptionContext.Adoptions.Where(a => a.AdopteeId==userId);
+                var adoptions = _adoptionContext.Adoptions.Include(adp => adp.AdopterDetails).Where(a => a.AdopteeId==userId);
 
                 return await adoptions.ToListAsync();
             }

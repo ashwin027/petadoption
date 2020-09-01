@@ -55,21 +55,30 @@
   height: 350px;
 }
 
-.submit-button {
-  margin-left: 10px;
-  margin-right: 10px;
+.button-spacing {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .description {
-  height: 65%;
+  height: 180px;
   overflow: auto;
 }
 
-.profile{
+.profile {
   font-size: medium;
 }
 
-.edit-icon{
+.edit-icon {
   font-size: medium;
   cursor: pointer;
+}
+
+.info {
+  height: 70px;
+}
+
+.custom-button {
+  font-size: 11px;
+  padding: 0px 5px;
 }

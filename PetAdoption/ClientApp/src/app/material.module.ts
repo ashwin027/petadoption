@@ -13,6 +13,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   imports: [
@@ -29,7 +31,9 @@ import {MatChipsModule} from '@angular/material/chips';
     MatInputModule,
     MatDialogModule,
     MatChipsModule,
-    FlexLayoutModule 
+    FlexLayoutModule,
+    MatMenuModule,
+    MatBadgeModule
   ],
   exports: [
     MatSidenavModule,
@@ -45,7 +49,9 @@ import {MatChipsModule} from '@angular/material/chips';
     MatInputModule,
     MatDialogModule,
     MatChipsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatMenuModule,
+    MatBadgeModule
   ]
 })
 export class MaterialModule {}

@@ -1,0 +1,43 @@
+<div fxLayout="row" class="top-margin">
+    <div fxFlexOffset="10" fxFlex="70">
+        <h2 class="custom-heading">Adoption request for {{data?.dogName}}</h2>
+        <div class="breed">{{data?.dogBreed}}</div>
+    </div>
+</div>
+
+<div fxLayout="row">
+    <div fxFlexOffset="10" fxFlex="70">
+        <div class="label-wrappers">
+            <div class="label-spacing">Name: </div>
+            <div class="label-spacing">{{data?.adopterDetail?.lastName}}, {{data?.adopterDetail?.givenName}}</div>
+        </div>
+        
+    </div>
+</div>
+<div fxLayout="row">
+    <div fxFlexOffset="10" fxFlex="70">
+        <div class="label-wrappers">
+            <div class="label-spacing">Address: </div>
+            <div class="label-spacing">{{data?.adopterDetail?.address}}</div>
+        </div>
+        
+    </div>
+</div>
+<div fxLayout="row">
+    <div fxFlexOffset="10" fxFlex="70">
+        <div class="label-wrappers">
+            <div class="label-spacing">Telephone: </div>
+            <div class="label-spacing">{{data.adopterDetail.telephone}}</div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row" class="buttons-wrapper">
+    <div fxFlexOffset="10" fxFlex="70" fxLayoutAlign="start">
+        <span class="button-spacing">
+            <button type="button" mat-raised-button color="primary" (click)="dialogRef.close(true)">Approve</button>
+        </span>
+        <span class="button-spacing">
+            <button type="button" mat-raised-button color="warn" (click)="dialogRef.close(false)">Reject</button>
+        </span>
+    </div>
+</div>

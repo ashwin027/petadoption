@@ -15,6 +15,7 @@ import { AdoptionDetailsDialogComponent } from './adoption-details-dialog/adopti
 import { AdoptPetComponent } from './adopt-pet/adopt-pet.component';
 import { TelephoneInputComponent } from './telephone-input/telephone-input.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { AdoptionRequestComponent } from './adoption-request/adoption-request.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     AdoptionDetailsDialogComponent,
     AdoptPetComponent,
     TelephoneInputComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    AdoptionRequestComponent
   ],
   imports: [
     BrowserModule,

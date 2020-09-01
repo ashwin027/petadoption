@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DogBreedInfo } from '../models/dogBreedInfo';
 import { PetInfoService } from '../services/pet-info.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { UserPet } from '../models/userPet';
 import { AuthService } from '../services/auth.service';
 import { UserProfile } from '../models/userProfile';
@@ -16,6 +16,11 @@ import { UserPetExtended } from '../models/userPetExtended';
 import 'rxjs/add/observable/forkJoin'
 import { AdoptionStatus } from '../models/adoptionStatus';
 import { Constants } from '../models/Constants';
+import { MessagingService } from '../services/messaging.service';
+import { AdoptionRequestComponent } from '../adoption-request/adoption-request.component';
+import { AdopterRequestDialogData } from '../models/adopterRequestDialogData';
+import { filter } from 'rxjs/operators';
+import { NoticicationType } from '../models/notificationType';
 
 @Component({
   selector: 'app-pet-profile',
@@ -30,14 +35,22 @@ export class PetProfileComponent implements OnInit {
   breeds = new Array<DogBreedInfo>();
   adoptions = new Array<Adoption>();
   Constants = Constants;
+  adoptionStatus = AdoptionStatus;
+  notificationSubscription: Subscription;
 
   constructor(private auth: AuthService, public dialog: MatDialog, private adoptionService: AdoptionService,
-    private userPetService: UserPetService, private petInfoService: PetInfoService) { }
+    private userPetService: UserPetService, private petInfoService: PetInfoService, private messagingService: MessagingService) { }
 
   ngOnInit(): void {
-
+    let notificationObs = this.messagingService.notificationSubject.pipe(filter(n => n.type === NoticicationType.AdoptionRequest));
+    this.notificationSubscription = notificationObs.subscribe(() =>{
+      this.getAdoptionsForUser();
+    });
     this.auth.userProfile$.subscribe((prfl) => {
       this.profile = prfl;
+      if (prfl){
+        this.messagingService.initializeConnection();
+      }
       Observable.forkJoin([
         this.petInfoService.getAllBreeds(),
         this.userPetService.getUserPets(this.profile.sub),
@@ -123,13 +136,17 @@ export class PetProfileComponent implements OnInit {
           status: AdoptionStatus.Available
         }
         this.adoptionService.createAdoption(adoption).subscribe(() => {
-          this.adoptionService.getAdoptionsForUser(this.profile.sub).subscribe((adoptions) => {
-            this.adoptions = adoptions;
-            this.setAdoptionStatuses();
-          })
+          this.getAdoptionsForUser();
         });
       }
     });
+  }
+
+  getAdoptionsForUser(){
+    this.adoptionService.getAdoptionsForUser(this.profile.sub).subscribe((adoptions) => {
+      this.adoptions = adoptions;
+      this.setAdoptionStatuses();
+    })
   }
 
   RemoveAdoption() {
@@ -156,6 +173,26 @@ export class PetProfileComponent implements OnInit {
       if (result) {
         
         this.getUserPets();
+      }
+    });
+  }
+
+  viewRequest(){
+    let adoption = this.adoptions.find(adp => adp.userPetId===this.selectedUserPet.id);
+    const dialogRef = this.dialog.open<AdoptionRequestComponent, AdopterRequestDialogData>(AdoptionRequestComponent, {
+      width: '500px',
+      data: {
+        adopterDetail: adoption.adopterDetails,
+        dogBreed: adoption.breedName,
+        dogName: adoption.petName
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        console.log("approved");
+      }else{
+        console.log("rejected");
       }
     });
   }

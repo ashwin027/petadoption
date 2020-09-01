@@ -17,23 +17,5 @@ namespace PetAdoption.Hubs
         {
             _logger = logger;
         }
-        public async Task NotifyAdoptionRequest(string receiverUserName, string petName)
-        {
-            try
-            {
-                var notification = new Notification()
-                {
-                    NotificationId = Guid.NewGuid(),
-                    Message = $"Adoption request received for {petName}"
-                };
-                await Clients.User(receiverUserName).SendAsync("onNotificationReceived", notification);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"An error occurred when attempting to send an adoption request notification. Details: {ex.Message}");
-                throw ex;
-            }
-            
-        }
     }
 }
