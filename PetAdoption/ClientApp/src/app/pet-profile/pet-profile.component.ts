@@ -117,7 +117,7 @@ export class PetProfileComponent implements OnInit {
           additionalRequirements: result.additionalRequirements,
           adopteeId: this.profile.sub,
           breedName: this.selectedBreed.name,
-          fees: result.fees,
+          fees: (result && result.fees.toString()!=='')?result.fees:0,
           petId: this.selectedUserPet.id,
           petName: this.selectedUserPet.name,
           status: AdoptionStatus.Available

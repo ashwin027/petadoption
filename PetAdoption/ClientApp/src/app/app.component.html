@@ -1,24 +1,4 @@
 <mat-sidenav-container>
-  <mat-sidenav #sidenav role="navigation">
-    <mat-nav-list>
-      <button mat-list-item (click)="auth.login()" *ngIf="!auth.loggedIn">
-        <mat-icon class="icon">input</mat-icon>
-        <span class="label">Login</span>
-      </button>
-      <a mat-list-item>
-        <mat-icon class="icon">home</mat-icon>
-        <span class="label">Home</span>
-      </a>
-      <a mat-list-item>
-        <mat-icon class="icon">dashboard</mat-icon>
-        <span class="label">Dashboard</span>
-      </a>
-      <a mat-list-item type="button" (click)="auth.logout()" *ngIf="auth.loggedIn">
-        <mat-icon class="icon">input</mat-icon>
-        <span class="label">LogOut</span>
-      </a>
-    </mat-nav-list> 
-  </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <div fxHide.gt-xs>
@@ -43,7 +23,7 @@
           </li>
           <li>
             <a routerLink="adoptions">
-              <mat-icon class="icon">home</mat-icon>
+              <mat-icon class="icon"><span title="Home">home</span></mat-icon>
               <span class="label label-spacing">Home</span>
             </a>
           </li>
@@ -52,6 +32,11 @@
               <fa-icon [icon]="faPaw"></fa-icon>
               <span class="label label-spacing">Your Pets</span>
             </a>
+          </li>
+          <li *ngIf="auth.loggedIn">
+            <span class="material-icons">
+              notifications
+            </span>
           </li>
           <li>
             <a (click)="auth.logout()" *ngIf="auth.loggedIn">
