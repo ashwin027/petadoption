@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Telephone } from '../models/telephone';
 import { AdopterDetailsDialogData } from '../models/adopterDetailsDialogData';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UserProfile } from '../models/userProfile';
+import { AdoptPetDialogData } from '../models/adoptPetDialogData';
 
 @Component({
   selector: 'app-adopt-pet',
@@ -17,12 +17,12 @@ export class AdoptPetComponent implements OnInit {
     address: ['', Validators.required],
     telephone: [new Telephone('', '', ''), Validators.required]
   });
-  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<AdoptPetComponent>, @Inject(MAT_DIALOG_DATA) public data: UserProfile) { }
+  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<AdoptPetComponent>, @Inject(MAT_DIALOG_DATA) public data: AdoptPetDialogData) { }
 
   ngOnInit(): void {
     this.adoptPetForm.patchValue({
-      givenName: this.data.given_name,
-      lastName: this.data.family_name,
+      givenName: this.data.profile.given_name,
+      lastName: this.data.profile.family_name,
     });
   }
 
@@ -31,7 +31,7 @@ export class AdoptPetComponent implements OnInit {
       givenName: this.adoptPetForm.value.givenName,
       lastName: this.adoptPetForm.value.lastName,
       address: this.adoptPetForm.value.address,
-      userId: this.data.sub,
+      userId: this.data.profile.sub,
       telephone: this.adoptPetForm.value.telephone,
     }
     this.dialogRef.close(adopterDetailsDialogData);

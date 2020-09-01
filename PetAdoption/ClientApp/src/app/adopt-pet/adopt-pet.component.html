@@ -2,7 +2,8 @@
 <form [formGroup]="adoptPetForm" (ngSubmit)="onSubmit()">
     <div fxLayout="row" class="top-margin">
         <div fxFlexOffset="10" fxFlex="70">
-            <h2>Enter contact information</h2>
+            <h2>Adoption request for {{data.dogName}}</h2>
+            <div>Breed: {{data.dogBreed}}</div>
         </div>
     </div>
     

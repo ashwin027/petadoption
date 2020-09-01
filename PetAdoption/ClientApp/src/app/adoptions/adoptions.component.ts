@@ -7,15 +7,16 @@ import { AdoptionExtended } from '../models/adoptionExtended';
 import { AdoptionStatus } from '../models/adoptionStatus';
 import { Constants } from '../models/Constants';
 import { AuthService } from '../services/auth.service';
-import { AdopterDetailService } from '../services/adopter-detail.service';
 import { UserProfile } from '../models/userProfile';
 import { Adoption } from '../models/adoption';
+import { AdoptPetDialogData } from '../models/adoptPetDialogData';
 import { AdopterDetail } from '../models/adopterDetail';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AdoptPetComponent } from '../adopt-pet/adopt-pet.component';
 import { AdopterDetailsDialogData } from '../models/adopterDetailsDialogData';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-adoptions',
@@ -47,7 +48,7 @@ export class AdoptionsComponent implements OnInit {
               let adoptionStr = sessionStorage.getItem(this.sessionStorageKey);
               let adoption = <Adoption>JSON.parse(adoptionStr);
 
-              if (adoption.adopteeId!==this.profile.sub){
+              if (adoption && adoption.adopteeId !== this.profile.sub) {
                 this.adopt(adoption);
               }
               sessionStorage.removeItem(this.sessionStorageKey);
@@ -87,9 +88,13 @@ export class AdoptionsComponent implements OnInit {
       sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(adoption));
       this.auth.login('/adoptions/initiate');
     } else {
-      const dialogRef = this.dialog.open(AdoptPetComponent, {
+      const dialogRef = this.dialog.open<AdoptPetComponent, AdoptPetDialogData>(AdoptPetComponent, {
         width: '500px',
-        data: this.profile
+        data: {
+          profile: this.profile,
+          dogName: adoption.petName,
+          dogBreed: adoption.breedName
+        }
       });
 
       dialogRef.afterClosed().subscribe((result: AdopterDetailsDialogData) => {
@@ -104,7 +109,15 @@ export class AdoptionsComponent implements OnInit {
             userPetId: adoption.userPetId
           };
           this.adoptionService.updateAdoptionWithDetails(adopterDetails).subscribe((savedAdoption) => {
-            this.getAllAdoptions();
+            const dref = this.dialog.open<ConfirmationDialogComponent, { message: string }>(ConfirmationDialogComponent, {
+              width: '400px',
+              data: {
+                message: 'Adoption request submitted successfully.'
+              }
+            });
+            dref.afterClosed().subscribe(() => {
+              this.getAllAdoptions();
+            })
           });
         }
       });
