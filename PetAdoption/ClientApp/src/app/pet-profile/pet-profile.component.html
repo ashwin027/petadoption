@@ -20,7 +20,12 @@
 <div *ngIf="selectedUserPet!=null && userPets.length>0">
     <div fxLayout="row" class="top-margin">
         <div fxFlexOffset="10" fxFlex="70">
-            <h2>Profile</h2>
+            <span class="profile">Profile
+                <span class="material-icons edit-icon" (click)="editProfile()">
+                    edit
+                </span>
+            </span>
+
         </div>
     </div>
     <div fxLayout="row">

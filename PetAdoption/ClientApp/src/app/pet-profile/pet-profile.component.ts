@@ -142,4 +142,21 @@ export class PetProfileComponent implements OnInit {
       });
     });
   }
+  
+  editProfile(){
+    const dialogRef = this.dialog.open(AddPetProfileDialogComponent, {
+      width: '700px',
+      data: {
+        breeds: this.breeds,
+        userPetInfo: this.selectedUserPet
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: UserPet) => {
+      if (result) {
+        
+        this.getUserPets();
+      }
+    });
+  }
 }

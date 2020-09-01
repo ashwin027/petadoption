@@ -45,6 +45,15 @@ export class AddPetProfileDialogComponent implements OnInit {
     this.auth.userProfile$.subscribe((prfl) =>{
       this.profile = prfl;
      });
+
+     if (this.data.userPetInfo){
+      this.petProfileForm.patchValue({
+        name: this.data.userPetInfo.name,
+        description: this.data.userPetInfo.description,
+        gender: this.data.userPetInfo.gender,
+        breed: this.data.userPetInfo.breedId
+      });
+     }
   }
 
   displayFn(breedId: Number): string {
@@ -75,6 +84,7 @@ export class AddPetProfileDialogComponent implements OnInit {
       userId: this.profile.sub
     }
 
+    
     this.userPetService.createUserPet(userPet).subscribe((userPet) =>{
       this.dialogRef.close(userPet);
     });

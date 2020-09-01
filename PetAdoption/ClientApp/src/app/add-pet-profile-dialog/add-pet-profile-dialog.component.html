@@ -2,7 +2,7 @@
 <form [formGroup]="petProfileForm" (ngSubmit)="onSubmit()">
     <div fxLayout="row" class="top-margin">
         <div fxFlexOffset="10" fxFlex="70">
-            <h2>Add a pet</h2>
+            <h2>{{(data.userPetInfo)?'Edit':'Add'}} a pet</h2>
         </div>
     </div>
     
