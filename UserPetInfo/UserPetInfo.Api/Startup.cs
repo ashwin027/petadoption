@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
+using UserPetInfo.Api.Consumers;
 using UserPetInfo.Api.Policies;
 using UserPetInfo.Models;
 using UserPetInfo.Models.Config;
@@ -36,7 +37,11 @@ namespace UserPetInfo.Api
 
             services.AddAutoMapper(c => c.AddProfile<Mappings>(), typeof(Startup));
 
-            var apiSettings = Configuration.GetSection(ApiSettingsOptions.ApiSettings).Get<ApiSettingsOptions>();
+            var apiSettingsSection = Configuration.GetSection(ApiSettingsOptions.ApiSettings);
+
+            var apiSettings = apiSettingsSection.Get<ApiSettingsOptions>();
+            services.Configure<ApiSettingsOptions>(apiSettingsSection);
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -49,6 +54,9 @@ namespace UserPetInfo.Api
 
             services.AddScoped<IUserPetRepository, UserPetRepository>();
             services.AddCustomCorsPolicy();
+
+            // Register consumers
+            services.AddHostedService<UserPetCreationConsumer>();
 
             services.AddControllers();
         }

@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PetAdoption.Consumers;
 using PetAdoption.Hubs;
 using PetAdoption.Models;
 using PetAdoption.Models.Config;
 using PetAdoption.Policies;
+using PetAdoption.Producers;
 using PetAdoption.Repository;
 
 namespace PetAdoption
@@ -34,7 +36,11 @@ namespace PetAdoption
 
             services.AddAutoMapper(c => c.AddProfile<Mappings>(), typeof(Startup));
 
-            var apiSettings = Configuration.GetSection(ApiSettingsOptions.ApiSettings).Get<ApiSettingsOptions>();
+            var apiSettingsSection = Configuration.GetSection(ApiSettingsOptions.ApiSettings);
+
+            var apiSettings = apiSettingsSection.Get<ApiSettingsOptions>();
+            services.Configure<ApiSettingsOptions>(apiSettingsSection);
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -64,6 +70,10 @@ namespace PetAdoption
 
             services.AddScoped<IAdoptionRepository, AdoptionRepository>();
             services.AddCustomCorsPolicy();
+
+            // Register consumers
+            services.AddHostedService<UserPetCreatedConsumer>();
+            services.AddScoped<ProducerWrapper>();
 
             services.AddSignalR();
 

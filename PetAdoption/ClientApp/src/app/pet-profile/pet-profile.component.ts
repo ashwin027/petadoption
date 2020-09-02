@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DogBreedInfo } from '../models/dogBreedInfo';
 import { PetInfoService } from '../services/pet-info.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { UserPet } from '../models/userPet';
 import { AuthService } from '../services/auth.service';
 import { UserProfile } from '../models/userProfile';
@@ -27,7 +27,7 @@ import { NoticicationType } from '../models/notificationType';
   templateUrl: './pet-profile.component.html',
   styleUrls: ['./pet-profile.component.scss']
 })
-export class PetProfileComponent implements OnInit {
+export class PetProfileComponent implements OnInit, OnDestroy {
   profile: UserProfile;
   userPets = new Array<UserPetExtended>();
   selectedUserPet: UserPetExtended;
@@ -37,6 +37,7 @@ export class PetProfileComponent implements OnInit {
   Constants = Constants;
   adoptionStatus = AdoptionStatus;
   notificationSubscription: Subscription;
+  userPetCreatedSubscription: Subscription;
 
   constructor(private auth: AuthService, public dialog: MatDialog, private adoptionService: AdoptionService,
     private userPetService: UserPetService, private petInfoService: PetInfoService, private messagingService: MessagingService) { }
@@ -46,6 +47,11 @@ export class PetProfileComponent implements OnInit {
     this.notificationSubscription = notificationObs.subscribe(() =>{
       this.getAdoptionsForUser();
     });
+
+    this.userPetCreatedSubscription = this.messagingService.userPetCreatedSubject.subscribe(() =>{
+      this.getUserPets();
+    });
+    
     this.auth.userProfile$.subscribe((prfl) => {
       this.profile = prfl;
       if (prfl){
@@ -171,7 +177,6 @@ export class PetProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: UserPet) => {
       if (result) {
-        
         this.getUserPets();
       }
     });
@@ -190,10 +195,34 @@ export class PetProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        console.log("approved");
+        let adoptionToUpdate: Adoption = {
+          additionalRequirements: adoption.additionalRequirements,
+          adopteeId: adoption.adopteeId,
+          breedName: adoption.breedName,
+          fees: adoption.fees,
+          petName: adoption.petName,
+          status: AdoptionStatus.Closed,
+          userPetId: adoption.userPetId,
+          adopterId: adoption.adopterId,
+          adopterDetailId: adoption.adopterDetailId,
+          id: adoption.id
+        }
+        this.adoptionService.updateAdoption(adoptionToUpdate).subscribe(() =>{
+          this.getAdoptionsForUser();
+        });
       }else{
         console.log("rejected");
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.userPetCreatedSubscription){
+      this.userPetCreatedSubscription.unsubscribe();
+    }
+
+    if (this.notificationSubscription){
+      this.notificationSubscription.unsubscribe();
+    }
   }
 }

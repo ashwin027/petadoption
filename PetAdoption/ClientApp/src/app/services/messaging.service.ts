@@ -11,6 +11,7 @@ import { NoticicationType } from '../models/notificationType';
 })
 export class MessagingService {
   notificationSubject = new Subject<AppNotification>();
+  userPetCreatedSubject = new Subject<number>();
   hubName = 'adoptionHub';
   connection: signalR.HubConnection;
   constructor(private auth: AuthService) { }
@@ -35,6 +36,15 @@ export class MessagingService {
     this.connection.on("adoptionRequestReceived", (notification: AppNotification) => {
       notification.type = NoticicationType.AdoptionRequest;
       this.notificationSubject.next(notification);
+    });
+
+    this.connection.on("userPetCreated", (userPetId: number) =>{
+      let notification: AppNotification = {
+        message: 'Congratulations! You request has been approved.',
+        type: NoticicationType.UserPetCreated
+      };
+      this.notificationSubject.next(notification);
+      this.userPetCreatedSubject.next(userPetId);
     });
   }
 }

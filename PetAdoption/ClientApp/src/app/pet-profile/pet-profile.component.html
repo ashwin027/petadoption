@@ -21,11 +21,10 @@
     <div fxLayout="row" class="top-margin">
         <div fxFlexOffset="10" fxFlex="70">
             <span class="profile">Profile
-                <span class="material-icons edit-icon" (click)="editProfile()">
-                    edit
-                </span>
+                <button mat-icon-button color="primary" *ngIf="selectedUserPet?.adoptionStatus!==Constants.Closed" (click)="editProfile()">
+                    <mat-icon>edit</mat-icon>
+                </button>
             </span>
-
         </div>
     </div>
     <div fxLayout="row">
@@ -60,8 +59,10 @@
                             <button class="custom-button" *ngIf="!selectedUserPet?.adoptionStatus" type="button"
                                 mat-raised-button color="primary" (click)="putUpForAdoption()">Put up
                                 for adoption</button>
-                            <button class="custom-button" *ngIf="selectedUserPet?.adoptionStatus" type="button"
-                                mat-raised-button color="primary" (click)="RemoveAdoption()">Remove adoption</button>
+                            <button class="custom-button"
+                                *ngIf="selectedUserPet?.adoptionStatus && selectedUserPet?.adoptionStatus!==Constants.Closed"
+                                type="button" mat-raised-button color="primary" (click)="RemoveAdoption()">Remove
+                                adoption</button>
                         </span>
                         <span class="button-spacing">
                             <button class="custom-button" *ngIf="selectedUserPet?.adoptionStatus===Constants.Pending"
@@ -69,7 +70,8 @@
                                 Request</button>
                         </span>
                         <span class="button-spacing">
-                            <button class="custom-button" type="button" mat-raised-button color="warn">Delete</button>
+                            <button class="custom-button"
+                                type="button" mat-raised-button color="warn">Delete</button>
                         </span>
                     </div>
                 </div>
@@ -77,7 +79,8 @@
                     <div class="upload-box">
                         <div class="file-upload-container">
                             <label for="photos" class="file-upload-label">Add photos</label>
-                            <input type="file" name="photos" class="file-upload" accept="image/png, image/jpeg">
+                            <input type="file" [disabled]="selectedUserPet?.adoptionStatus===Constants.Closed"
+                                name="photos" class="file-upload" accept="image/png, image/jpeg">
                         </div>
                     </div>
                 </div>

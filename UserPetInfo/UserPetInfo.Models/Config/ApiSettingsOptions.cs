@@ -8,5 +8,6 @@ namespace UserPetInfo.Models.Config
     {
         public const string ApiSettings = "ApiSettings";
         public AuthSettingsOptions AuthZeroSettings { get; set; }
+        public KafkaSettings KafkaSettings { get; set; }
     }
 }

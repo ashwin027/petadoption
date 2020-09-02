@@ -12,6 +12,8 @@ using PetAdoption.Hubs;
 using PetAdoption.Models;
 using PetAdoption.Models.Common;
 using PetAdoption.Models.Entities;
+using PetAdoption.Models.Messages;
+using PetAdoption.Producers;
 using PetAdoption.Repository;
 
 namespace PetAdoption.Controllers
@@ -25,13 +27,15 @@ namespace PetAdoption.Controllers
         private readonly ILogger<AdoptionController> _logger;
         private readonly IAdoptionRepository _adoptionRepository;
         private readonly IHubContext<AdoptionHub> _hubContext;
+        private readonly ProducerWrapper _producerWrapper;
 
-        public AdoptionController(ILogger<AdoptionController> logger, IAdoptionRepository adoptionRepository, IMapper mapper, IHubContext<AdoptionHub> hubContext)
+        public AdoptionController(ILogger<AdoptionController> logger, IAdoptionRepository adoptionRepository, IMapper mapper, IHubContext<AdoptionHub> hubContext, ProducerWrapper producer)
         {
             _mapper = mapper;
             _logger = logger;
             _adoptionRepository = adoptionRepository;
             _hubContext = hubContext;
+            _producerWrapper = producer;
         }
 
         [HttpGet("{id}")]
@@ -186,6 +190,7 @@ namespace PetAdoption.Controllers
                     return NotFound();
                 }
 
+                var currentStatus = entity.Status;
                 var result = await _adoptionRepository.UpdateAdoption(adoptionEntity);
 
                 if (result == null)
@@ -194,7 +199,12 @@ namespace PetAdoption.Controllers
                     return StatusCode(500);
                 }
 
-                return Ok(result);
+                if (currentStatus != result.Status && result.Status == AdoptionStatus.Closed)
+                {
+                    _producerWrapper.Produce("UserPetCreation", new UserPetCreationMessage(){UserId = result.AdopterId, PreviousUserPetId = result.UserPetId});
+                }
+
+                return Ok(_mapper.Map<Adoption>(result));
             }
             catch (Exception ex)
             {
