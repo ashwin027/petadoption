@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 using Confluent.Kafka;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using PetAdoption.Models.Common;
-using PetAdoption.Models.Config;
-using PetAdoption.Models.Messages;
+using UserPetInfo.Models.Common;
+using UserPetInfo.Models.Config;
 
-namespace PetAdoption.Producers
+namespace UserPetInfo.Api.Producers
 {
     public class ProducerWrapper
     {

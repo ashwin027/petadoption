@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using UserPetInfo.Api.Producers;
 using UserPetInfo.Models;
 using UserPetInfo.Models.Common;
 using UserPetInfo.Models.Config;
@@ -44,7 +45,7 @@ namespace UserPetInfo.Api.Consumers
             {
                 GroupId = GroupId,
                 BootstrapServers = _apiSettings.KafkaSettings.BrokerList,
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                AllowAutoCreateTopics = true
             };
 
             var producerConfig = new ProducerConfig { BootstrapServers = _apiSettings.KafkaSettings.BrokerList };
@@ -104,20 +105,9 @@ namespace UserPetInfo.Api.Consumers
                                             UserPetId = createdUserPet.Id
                                         };
 
-                                        using (var p = new ProducerBuilder<Null, UserPetCreatedMessage>(producerConfig)
-                                            .SetValueSerializer(new CustomSerializer<UserPetCreatedMessage>())
-                                            .Build())
-                                        {
-                                            p.Produce(ProductionTopic, new Message<Null, UserPetCreatedMessage> { Value = userPetCreatedMessage }, (report) =>
-                                            {
-                                                if (report.Error.IsError)
-                                                {
-                                                    _logger.LogError($"Production of message on topic '{ProductionTopic}' failed with error reason: '{report.Error.Reason}'.");
-                                                }
-                                            });
-                                        }
+                                        var producerWrapper = scope.ServiceProvider.GetRequiredService<ProducerWrapper>();
+                                        await producerWrapper.Produce(ProductionTopic, userPetCreatedMessage);
                                     }
-
                                 }
                             }
                             catch (ConsumeException e)

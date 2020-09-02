@@ -201,7 +201,7 @@ namespace PetAdoption.Controllers
 
                 if (currentStatus != result.Status && result.Status == AdoptionStatus.Closed)
                 {
-                    _producerWrapper.Produce("UserPetCreation", new UserPetCreationMessage(){UserId = result.AdopterId, PreviousUserPetId = result.UserPetId});
+                    await _producerWrapper.Produce("UserPetCreation", new UserPetCreationMessage(){UserId = result.AdopterId, PreviousUserPetId = result.UserPetId});
                 }
 
                 return Ok(_mapper.Map<Adoption>(result));

@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 using UserPetInfo.Api.Consumers;
 using UserPetInfo.Api.Policies;
+using UserPetInfo.Api.Producers;
 using UserPetInfo.Models;
 using UserPetInfo.Models.Config;
 using UserPetInfo.Repository;
@@ -57,6 +58,7 @@ namespace UserPetInfo.Api
 
             // Register consumers
             services.AddHostedService<UserPetCreationConsumer>();
+            services.AddScoped<ProducerWrapper>();
 
             services.AddControllers();
         }

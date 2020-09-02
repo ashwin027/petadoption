@@ -37,7 +37,7 @@ namespace PetAdoption.Consumers
             {
                 GroupId = GroupId,
                 BootstrapServers = _apiSettings.KafkaSettings.BrokerList,
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                AllowAutoCreateTopics = true
             };
 
             using (var c = new ConsumerBuilder<Ignore, UserPetCreatedMessage>(conf)

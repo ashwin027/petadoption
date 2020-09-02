@@ -27,7 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetAdoption", "PetAdoption\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "charts", "charts", "{1A68D736-8513-43DE-A2EC-235193E8F73F}"
 	ProjectSection(SolutionItems) = preProject
-		CreateTopics.sh = CreateTopics.sh
 		charts\docker-compose.yml = charts\docker-compose.yml
 	EndProjectSection
 EndProject
