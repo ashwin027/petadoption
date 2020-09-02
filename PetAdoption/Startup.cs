@@ -69,7 +69,10 @@ namespace PetAdoption
             });
 
             services.AddScoped<IAdoptionRepository, AdoptionRepository>();
-            services.AddCustomCorsPolicy();
+
+            var section = Configuration.GetSection("AllowedOrigins");
+            var origins = section.Get<string[]>();
+            services.AddCustomCorsPolicy(origins);
 
             // Register consumers
             services.AddHostedService<UserPetCreatedConsumer>();
