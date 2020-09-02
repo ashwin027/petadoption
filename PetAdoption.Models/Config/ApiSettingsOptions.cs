@@ -9,5 +9,6 @@ namespace PetAdoption.Models.Config
         public const string ApiSettings = "ApiSettings";
         public AuthSettingsOptions AuthZeroSettings { get; set; }
         public KafkaSettings KafkaSettings { get; set; }
+        public SpaConfig SpaConfig { get; set; }
     }
 }

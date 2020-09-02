@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +16,8 @@ import { AdoptPetComponent } from './adopt-pet/adopt-pet.component';
 import { TelephoneInputComponent } from './telephone-input/telephone-input.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { AdoptionRequestComponent } from './adoption-request/adoption-request.component';
+import {SpaConfigFactory} from './services/spaConfigFactory';
+import { SpaConfigService } from './services/spa-config.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,14 @@ import { AdoptionRequestComponent } from './adoption-request/adoption-request.co
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: SpaConfigFactory,
+      multi: true,
+      deps: [SpaConfigService]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

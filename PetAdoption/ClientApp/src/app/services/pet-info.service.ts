@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpBackend } from '@angular/common/http';
 import {DogBreedInfo} from '../models/dogBreedInfo';
 import { Observable } from 'rxjs/internal/Observable';
+import { SpaConfigService } from './spa-config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PetInfoService {
+  baseUrl: string;
 
-  baseUrl = 'http://localhost:5002/api/doginfo';
-
-  constructor(private http: HttpClient, private handler: HttpBackend) { }
+  constructor(private http: HttpClient, private handler: HttpBackend, private spaConfigService: SpaConfigService) { 
+    this.baseUrl = `${this.spaConfigService.spaConfig.petInfoApiBaseUrl}/api/dogInfo`;
+  }
 
   getAllBreeds(): Observable<Array<DogBreedInfo>> {
     let httpClient = new HttpClient(this.handler);
