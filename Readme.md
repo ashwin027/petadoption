@@ -19,7 +19,7 @@ The application has been built with,
 -  [.Net core SDK 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 - LocalDB through the Visual Studio Installer or from [here](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb?view=sql-server-ver15).
 - Powershell
-- Kafka (zookeeper and broker running either through command line or on docker/kubernetes)
+- Kafka (zookeeper and broker running either through [command line](https://kafka.apache.org/downloads) or on [docker](https://github.com/ashwin027/petadoption/blob/master/charts/docker-compose.yml)/[kubernetes](https://github.com/ashwin027/petadoption/tree/master/charts/kafka))
 
 #### Running the application
 Build and run the api projects `PetInfo.Api`, `UserPetInfo.Api` and `PetAdoption`. For the UI, navigate to the `PetAdoption/ClientApp` folder and type `npm install` to get the packages installed and then type `npm start` to start the angular application.
