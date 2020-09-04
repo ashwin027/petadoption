@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using UserPetInfo.Models;
-using UserPetInfo.Models.Common;
+using PetAdoption.Common;
 using UserPetInfo.Models.Entities;
 
 namespace UserPetInfo.Repository

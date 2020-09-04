@@ -30,6 +30,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "charts", "charts", "{1A68D7
 		charts\docker-compose.yml = charts\docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{CCDC8A81-91E2-4FE7-A74C-058D1D366AA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetAdoption.Eventing", "Nuget\PetAdoption.Eventing\PetAdoption.Eventing.csproj", "{11256870-C8CB-463C-B403-2B02F3252DE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetAdoption.Common", "Nuget\PetAdoption.Common\PetAdoption.Common.csproj", "{71BDAC64-E008-4DAA-B6D5-DB17E7F32461}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +78,14 @@ Global
 		{2E6EC959-9190-4EA8-8591-CCEB0F117B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E6EC959-9190-4EA8-8591-CCEB0F117B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E6EC959-9190-4EA8-8591-CCEB0F117B3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11256870-C8CB-463C-B403-2B02F3252DE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11256870-C8CB-463C-B403-2B02F3252DE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11256870-C8CB-463C-B403-2B02F3252DE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11256870-C8CB-463C-B403-2B02F3252DE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71BDAC64-E008-4DAA-B6D5-DB17E7F32461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71BDAC64-E008-4DAA-B6D5-DB17E7F32461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71BDAC64-E008-4DAA-B6D5-DB17E7F32461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71BDAC64-E008-4DAA-B6D5-DB17E7F32461}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +97,8 @@ Global
 		{91035CFC-1955-440C-90AF-3F502FD7E4B6} = {2199C3C9-8FB1-4271-8717-B094BC3EC6F3}
 		{FC7FBBCC-CAF0-4EF7-8424-8B4B57FFF7C5} = {2199C3C9-8FB1-4271-8717-B094BC3EC6F3}
 		{D35366A7-F4AF-417E-B8B7-8F3C21A49623} = {2199C3C9-8FB1-4271-8717-B094BC3EC6F3}
+		{11256870-C8CB-463C-B403-2B02F3252DE1} = {CCDC8A81-91E2-4FE7-A74C-058D1D366AA1}
+		{71BDAC64-E008-4DAA-B6D5-DB17E7F32461} = {CCDC8A81-91E2-4FE7-A74C-058D1D366AA1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E1A4E1B6-7866-4459-8B49-C6D3E1DA757B}

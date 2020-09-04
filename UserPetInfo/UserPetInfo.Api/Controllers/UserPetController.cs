@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Security.Claims;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using PetAdoption.Common;
 using UserPetInfo.Models;
-using UserPetInfo.Models.Common;
 using UserPetInfo.Models.Entities;
 using UserPetInfo.Repository;
 

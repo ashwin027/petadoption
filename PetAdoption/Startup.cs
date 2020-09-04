@@ -9,11 +9,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PetAdoption.Consumers;
+using PetAdoption.Eventing.Extensions;
 using PetAdoption.Hubs;
 using PetAdoption.Models;
 using PetAdoption.Models.Config;
 using PetAdoption.Policies;
-using PetAdoption.Producers;
 using PetAdoption.Repository;
 
 namespace PetAdoption
@@ -76,7 +76,10 @@ namespace PetAdoption
 
             // Register consumers
             services.AddHostedService<UserPetCreatedConsumer>();
-            services.AddScoped<ProducerWrapper>();
+            services.AddEventing((options) =>
+            {
+                options.SystemUrlList = apiSettings.EventingConfig.SystemUrlList;
+            });
 
             services.AddSignalR();
 

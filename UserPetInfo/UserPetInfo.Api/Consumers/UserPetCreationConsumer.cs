@@ -11,12 +11,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using UserPetInfo.Api.Producers;
+using PetAdoption.Eventing;
+using PetAdoption.Eventing.Common;
+using PetAdoption.Eventing.Messages;
 using UserPetInfo.Models;
-using UserPetInfo.Models.Common;
 using UserPetInfo.Models.Config;
 using UserPetInfo.Models.Entities;
-using UserPetInfo.Models.Messages;
 using UserPetInfo.Repository;
 
 namespace UserPetInfo.Api.Consumers
@@ -27,11 +27,6 @@ namespace UserPetInfo.Api.Consumers
         private readonly ILogger<UserPetCreationConsumer> _logger;
         private readonly ApiSettingsOptions _apiSettings;
         private readonly IServiceProvider _serviceProvider;
-
-        // TODO: Move all strings to constants in the models project
-        private const string GroupId = "userpetinfo-userpetcreation-group";
-        private const string Topic = "UserPetCreation";
-        private const string ProductionTopic = "UserPetCreated";
         public UserPetCreationConsumer(IOptions<ApiSettingsOptions> options, ILogger<UserPetCreationConsumer> logger, IServiceProvider serviceProvider, IMapper mapper)
         {
             _apiSettings = options.Value;
@@ -41,21 +36,22 @@ namespace UserPetInfo.Api.Consumers
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            var groupId = $"{UserPetCreationMessage.Topic}-{Constants.TopicGroupSuffix}";
             var consumerConfig = new ConsumerConfig
             {
-                GroupId = GroupId,
-                BootstrapServers = _apiSettings.KafkaSettings.BrokerList,
+                GroupId = groupId,
+                BootstrapServers = _apiSettings.EventingConfig.SystemUrlList,
                 AllowAutoCreateTopics = true
             };
 
-            var producerConfig = new ProducerConfig { BootstrapServers = _apiSettings.KafkaSettings.BrokerList };
+            var producerConfig = new ProducerConfig { BootstrapServers = _apiSettings.EventingConfig.SystemUrlList };
 
             // Expecting the user pet id from the previous owner to create a record for the new owner using the previous pet details
             using (var c = new ConsumerBuilder<Ignore, UserPetCreationMessage>(consumerConfig)
                 .SetValueDeserializer(new CustomDeserializer<UserPetCreationMessage>())
                 .Build())
             {
-                c.Subscribe(Topic);
+                c.Subscribe(UserPetCreationMessage.Topic);
 
                 try
                 {
@@ -105,8 +101,8 @@ namespace UserPetInfo.Api.Consumers
                                             UserPetId = createdUserPet.Id
                                         };
 
-                                        var producerWrapper = scope.ServiceProvider.GetRequiredService<ProducerWrapper>();
-                                        await producerWrapper.Produce(ProductionTopic, userPetCreatedMessage);
+                                        var producerWrapper = scope.ServiceProvider.GetRequiredService<IProducerWrapper>();
+                                        await producerWrapper.Produce(UserPetCreatedMessage.Topic, userPetCreatedMessage);
                                     }
                                 }
                             }

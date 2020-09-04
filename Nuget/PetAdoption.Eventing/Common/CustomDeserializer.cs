@@ -1,10 +1,10 @@
-﻿using Confluent.Kafka;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Confluent.Kafka;
 
-namespace UserPetInfo.Models.Common
+namespace PetAdoption.Eventing.Common
 {
     public class CustomDeserializer<T> : IDeserializer<T>
     {

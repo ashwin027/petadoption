@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using PetAdoption.Eventing.Messages;
 using PetAdoption.Hubs;
+using PetAdoption.Models;
 using PetAdoption.Models.Common;
 using PetAdoption.Models.Config;
-using PetAdoption.Models.Messages;
 
 namespace PetAdoption.Consumers
 {
@@ -21,8 +22,6 @@ namespace PetAdoption.Consumers
         private readonly ApiSettingsOptions _apiSettings;
 
         // TODO: Move all strings to constants in the models project
-        private const string GroupId = "petadoption-userpetcreated-group";
-        private const string Topic = "UserPetCreated";
         private const string Method = "userPetCreated";
         private readonly IHubContext<AdoptionHub> _hubContext;
         public UserPetCreatedConsumer(IOptions<ApiSettingsOptions> options, ILogger<UserPetCreatedConsumer> logger, IHubContext<AdoptionHub> hubContext)
@@ -33,10 +32,11 @@ namespace PetAdoption.Consumers
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            var groupId = $"{UserPetCreatedMessage.Topic}-{Constants.TopicGroupSuffix}";
             var conf = new ConsumerConfig
             {
-                GroupId = GroupId,
-                BootstrapServers = _apiSettings.KafkaSettings.BrokerList,
+                GroupId = groupId,
+                BootstrapServers = _apiSettings.EventingConfig.SystemUrlList,
                 AllowAutoCreateTopics = true
             };
 
@@ -44,7 +44,7 @@ namespace PetAdoption.Consumers
                 .SetValueDeserializer(new CustomDeserializer<UserPetCreatedMessage>())
                 .Build())
             {
-                c.Subscribe(Topic);
+                c.Subscribe(UserPetCreatedMessage.Topic);
 
                 try
                 {

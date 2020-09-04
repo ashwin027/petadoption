@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
-using UserPetInfo.Models.Common;
+﻿using AutoMapper;
 using UserPetInfo.Models.Entities;
 
 namespace UserPetInfo.Models

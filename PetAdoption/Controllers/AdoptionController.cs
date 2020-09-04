@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,12 +7,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using PetAdoption.Eventing;
+using PetAdoption.Eventing.Messages;
 using PetAdoption.Hubs;
 using PetAdoption.Models;
 using PetAdoption.Models.Common;
 using PetAdoption.Models.Entities;
-using PetAdoption.Models.Messages;
-using PetAdoption.Producers;
 using PetAdoption.Repository;
 
 namespace PetAdoption.Controllers
@@ -27,9 +26,9 @@ namespace PetAdoption.Controllers
         private readonly ILogger<AdoptionController> _logger;
         private readonly IAdoptionRepository _adoptionRepository;
         private readonly IHubContext<AdoptionHub> _hubContext;
-        private readonly ProducerWrapper _producerWrapper;
+        private readonly IProducerWrapper _producerWrapper;
 
-        public AdoptionController(ILogger<AdoptionController> logger, IAdoptionRepository adoptionRepository, IMapper mapper, IHubContext<AdoptionHub> hubContext, ProducerWrapper producer)
+        public AdoptionController(ILogger<AdoptionController> logger, IAdoptionRepository adoptionRepository, IMapper mapper, IHubContext<AdoptionHub> hubContext, IProducerWrapper producer)
         {
             _mapper = mapper;
             _logger = logger;

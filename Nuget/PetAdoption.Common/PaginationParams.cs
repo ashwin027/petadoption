@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UserPetInfo.Models.Common
+namespace PetAdoption.Common
 {
     public class PaginationParams
     {

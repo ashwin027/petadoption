@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using UserPetInfo.Models;
-using UserPetInfo.Models.Common;
+﻿using System.Threading.Tasks;
+using PetAdoption.Common;
 using UserPetInfo.Models.Entities;
 
 namespace UserPetInfo.Repository

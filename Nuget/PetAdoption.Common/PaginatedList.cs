@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace UserPetInfo.Models.Common
+namespace PetAdoption.Common
 {
     public class PaginatedList<T> : List<T>
     {
@@ -15,7 +15,7 @@ namespace UserPetInfo.Models.Common
 
         public PaginatedList()
         {
-            
+
         }
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
