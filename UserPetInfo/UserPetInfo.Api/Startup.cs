@@ -53,7 +53,7 @@ namespace UserPetInfo.Api
             services.AddHostedService<UserPetCreationConsumer>();
             services.AddEventing((options) =>
             {
-                options.SystemUrlList = apiSettings.EventingConfig.SystemUrlList;
+                options.SystemUrlList = apiSettings.EventingSystemConfig.SystemUrlList;
             });
 
             services.AddControllers();

@@ -78,7 +78,7 @@ namespace PetAdoption
             services.AddHostedService<UserPetCreatedConsumer>();
             services.AddEventing((options) =>
             {
-                options.SystemUrlList = apiSettings.EventingConfig.SystemUrlList;
+                options.SystemUrlList = apiSettings.EventingSystemConfig.SystemUrlList;
             });
 
             services.AddSignalR();

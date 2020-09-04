@@ -40,11 +40,11 @@ namespace UserPetInfo.Api.Consumers
             var consumerConfig = new ConsumerConfig
             {
                 GroupId = groupId,
-                BootstrapServers = _apiSettings.EventingConfig.SystemUrlList,
+                BootstrapServers = _apiSettings.EventingSystemConfig.SystemUrlList,
                 AllowAutoCreateTopics = true
             };
 
-            var producerConfig = new ProducerConfig { BootstrapServers = _apiSettings.EventingConfig.SystemUrlList };
+            var producerConfig = new ProducerConfig { BootstrapServers = _apiSettings.EventingSystemConfig.SystemUrlList };
 
             // Expecting the user pet id from the previous owner to create a record for the new owner using the previous pet details
             using (var c = new ConsumerBuilder<Ignore, UserPetCreationMessage>(consumerConfig)

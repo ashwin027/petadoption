@@ -9,6 +9,6 @@ namespace UserPetInfo.Models.Config
     {
         public const string ApiSettings = "ApiSettings";
         public AuthSettingsOptions AuthZeroSettings { get; set; }
-        public EventingSystemConfig EventingConfig { get; set; }
+        public EventingSystemConfig EventingSystemConfig { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace PetAdoption.Consumers
             var conf = new ConsumerConfig
             {
                 GroupId = groupId,
-                BootstrapServers = _apiSettings.EventingConfig.SystemUrlList,
+                BootstrapServers = _apiSettings.EventingSystemConfig.SystemUrlList,
                 AllowAutoCreateTopics = true
             };
 

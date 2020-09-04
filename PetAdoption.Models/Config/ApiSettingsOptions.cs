@@ -9,7 +9,7 @@ namespace PetAdoption.Models.Config
     {
         public const string ApiSettings = "ApiSettings";
         public AuthSettingsOptions AuthZeroSettings { get; set; }
-        public EventingSystemConfig EventingConfig { get; set; }
+        public EventingSystemConfig EventingSystemConfig { get; set; }
         public SpaConfig SpaConfig { get; set; }
     }
 }
