@@ -26,5 +26,5 @@ The application has been built with,
 * Add configuration to the appsettings.json file with the kafka server URL. 
 * Build and run the api projects `PetInfo.Api`, `UserPetInfo.Api` and `PetAdoption`. For the UI, navigate to the `PetAdoption/ClientApp` folder and type `npm install` to get the packages installed and then type `npm start` to start the angular application.
 
-Reference
+#### Reference
 ![alt text](https://github.com/ashwin027/petadoption/blob/master/PetAdoption.png)
